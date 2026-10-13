@@ -13,7 +13,7 @@ This task list serves as the central progress tracker for human contributors and
 - [x] **Phase 5: Live Meeting Notes & Notulen Module**
 - [x] **Phase 6: Standup Copilot & Offline Template Formatter**
 - [x] **Phase 7: Dual-Engine AI Integration (Ollama + Gemini)**
-- [ ] **Phase 8: Data Portability (Backup/Restore & Markdown)**
+- [x] **Phase 8: Data Portability (Backup/Restore & Markdown)**
 - [ ] **Phase 9: Extension (Manifest V3) & PWA Packaging**
 - [ ] **Phase 10: Accessibility, Performance & Final Polish**
 
@@ -87,11 +87,12 @@ This task list serves as the central progress tracker for human contributors and
 
 ---
 
-### Phase 8: Data Portability (Backup/Restore & Markdown)
-- [ ] Implement "Export JSON" creating a complete downloadable backup file.
-- [ ] Implement "Import JSON" with validation and option to merge or overwrite.
-- [ ] Implement "Export Markdown" for meeting notes and quarterly accomplishment sheets.
-- [ ] Implement safe database reset dialog.
+### Phase 8: Data Portability (Backup/Restore & Markdown) (Completed)
+- [x] Implement "Export JSON" creating a complete downloadable backup file.
+- [x] Implement "Import JSON" with validation and option to merge or overwrite.
+- [x] Implement "Export Markdown" for meeting notes and quarterly accomplishment sheets.
+- [x] Implement safe database reset dialog.
+
 
 ---
 
