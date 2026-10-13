@@ -57,6 +57,7 @@ start index.html
 | [AGENTS.md](file:///home/yoga/Documents/Prof/bragbook/AGENTS.md) | Operational guidelines & guardrails for autonomous AI coding agents |
 | [CODE_OF_CONDUCT.md](file:///home/yoga/Documents/Prof/bragbook/CODE_OF_CONDUCT.md) | Contributor Covenant Community Standards |
 | [SECURITY.md](file:///home/yoga/Documents/Prof/bragbook/SECURITY.md) | Vulnerability disclosure policy & local isolation commitments |
+| [TEST_REPORT.md](file:///home/yoga/Documents/Prof/bragbook/TEST_REPORT.md) | Automated blackbox test report & Chrome Dev SDK telemetry |
 | [CHANGELOG.md](file:///home/yoga/Documents/Prof/bragbook/CHANGELOG.md) | Semantic versioning change history |
 | [LICENSE](file:///home/yoga/Documents/Prof/bragbook/LICENSE) | MIT Open Source License |
 

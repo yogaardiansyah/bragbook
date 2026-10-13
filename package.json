@@ -1,0 +1,24 @@
+{
+  "name": "bragbook",
+  "version": "1.1.0",
+  "description": "100% Local-First, Zero-Server Work Journal, Kanban Board, Live Meeting Notes & Performance Copilot",
+  "homepage": "https://github.com/yogaardiansyah/bragbook",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yogaardiansyah/bragbook.git"
+  },
+  "author": "Yoga Ardiansyah",
+  "license": "MIT",
+  "scripts": {
+    "test": "node tests/blackbox.spec.js",
+    "lint": "eslint js/",
+    "lint:fix": "eslint js/ --fix",
+    "format": "prettier --write \"js/**/*.js\" \"tests/**/*.js\" \"*.css\" \"*.html\"",
+    "format:check": "prettier --check \"js/**/*.js\" \"tests/**/*.js\" \"*.css\" \"*.html\""
+  },
+  "devDependencies": {
+    "eslint": "^9.20.0",
+    "playwright-core": "^1.64.0",
+    "prettier": "^3.5.0"
+  }
+}

@@ -16,6 +16,7 @@ This task list serves as the central progress tracker for human contributors and
 - [x] **Phase 8: Data Portability (Backup/Restore & Markdown)**
 - [x] **Phase 9: Extension (Manifest V3) & PWA Packaging**
 - [x] **Phase 10: Accessibility, Performance & Final Polish**
+- [x] **Phase 11: Modular Architectural Refactor & Blackbox Test Automation**
 
 ---
 
@@ -106,3 +107,13 @@ This task list serves as the central progress tracker for human contributors and
 - [x] Audit keyboard accessibility (Tab navigation, dialog focus trapping).
 - [x] Verify offline execution with network disconnected.
 - [x] Write user-facing [README.md](file:///home/yoga/Documents/Prof/bragbook/README.md) and developer [GUIDEBOOK.md](file:///home/yoga/Documents/Prof/bragbook/GUIDEBOOK.md).
+
+---
+
+### Phase 11: Modular Architecture Refactor & Blackbox Test Automation (Completed)
+- [x] Decompose monolithic `app.js` (1,550+ lines) into 14 specialized modules under `js/` adhering to the `window.BragBook` clean architecture.
+- [x] Maintain zero-build, zero-server `file:///` and GitHub Pages compatibility without external bundlers.
+- [x] Build automated Blackbox & Chrome DevTools Protocol (CDP) test suite in `tests/blackbox.spec.js`.
+- [x] Verify all 10 core functional categories: Boot & Runtime, Visual Layout, Journal Quick Capture, Search & Filtering, Kanban Board, Live Meetings & Timestamps, Standup Copilot, Performance Review, AI Settings BYOK, and Backup & JSON Portability.
+- [x] Achieve 42/42 passing test scenarios with 0 console errors and 1.57 MB JS heap footprint.
+

@@ -10,11 +10,33 @@ This document outlines the file layout, modular responsibilities, and coding sta
 bragbook/
 ├── index.html              # Main semantic UI structure & layout containers
 ├── style.css               # Complete styling system (Dark theme tokens, glassmorphism, responsive grid)
-├── app.js                  # Modular client-side application logic & state controllers
 ├── manifest.json           # Manifest V3 configuration for Chrome Side Panel & PWA
 ├── icons/                  # Web App & Extension icons
 │   ├── icon-128.png
 │   └── icon-512.png
+├── js/                     # Modular client-side architecture (Zero-Build, Zero-Server)
+│   ├── state.js            # Central State store & Constants
+│   ├── utils.js            # Helpers, date/time formatting, HTML sanitizer
+│   ├── storage.js          # LocalStorage persistence manager
+│   ├── metrics.js          # Streak & achievement counter engine
+│   ├── navigation.js       # Tab navigation controller & lifecycle hooks
+│   ├── journal.js          # Work Journal logger & inline entry editing
+│   ├── kanban.js           # 4-column drag-and-drop Kanban controller
+│   ├── meetings.js         # Live meeting notulen, timestamping & action sync
+│   ├── standup.js          # Daily standup copilot synthesis & Slack export
+│   ├── review.js           # Career accomplishment review & Markdown generator
+│   ├── ai.js               # Dual-Engine AI (Local Ollama & Google Gemini BYOK)
+│   ├── settings.js         # AI provider configuration & test connection
+│   ├── backup.js           # Full JSON backup export/import & safe reset
+│   └── app.js              # Modals utility & DOMContentLoaded lifecycle bootstrap
+├── tests/                  # Automated Blackbox & CDP Quality Assurance Suite
+│   ├── blackbox.spec.js    # Playwright & Chrome DevTools Protocol test runner
+│   └── blackbox-report.json# Raw machine-readable telemetry outputs
+├── .prettierrc             # Code style formatting rules (single quotes, 2-space tab)
+├── .prettierignore         # Prettier exclusion paths
+├── eslint.config.mjs       # ESLint 9 flat configuration & browser globals whitelist
+├── package.json            # Node tooling config for test, lint, and formatting
+├── TEST_REPORT.md          # Comprehensive blackbox verification report (42/42 PASS)
 ├── URS.md                  # User Requirements Specification v1.1.0
 ├── ARCHITECTURE.md         # System architecture, schemas, and Mermaid diagrams
 ├── PROJECT_STRUCTURE.md    # This document (layout & conventions)
@@ -38,11 +60,20 @@ bragbook/
 
 ### `style.css`
 * Pure Vanilla CSS3 with CSS Custom Properties (Variables) for design tokens:
-  * Color palette: Sleek deep slate dark mode (`--bg-primary`, `--bg-secondary`, `--accent-primary`, etc.).
+  * Color palette: Sleek deep slate dark mode (`--bg-canvas`, `--bg-surface`, `--primary-500`, etc.).
   * Status badges: `#feat`, `#fix`, `#meeting`, and impact ratings (`low`, `medium`, `high`).
 * Responsive layout system using CSS Grid and Flexbox.
 * Glassmorphic cards with `backdrop-filter` and micro-animations for interactive components.
 * Optimized media queries for desktop monitors, laptop screens, and narrow viewports (~400px side panel).
+
+### `js/` Directory (Modular Architecture)
+Each file has a single, isolated responsibility:
+* `state.js` & `utils.js`: Data models and foundational utilities.
+* `storage.js` & `metrics.js`: Persistence and calculation logic.
+* `journal.js` & `kanban.js`: Core work tracking & task orchestration.
+* `meetings.js` & `standup.js`: Meeting note-taking and standup generation.
+* `ai.js`, `settings.js` & `review.js`: Dual-engine AI and career review polish.
+* `backup.js` & `app.js`: Data export/import and application bootstrap.
 
 ### `app.js`
 Structured into decoupled JavaScript modules/objects to maintain readability without requiring bundlers:
