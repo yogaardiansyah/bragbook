@@ -400,4 +400,125 @@ window.BragBook = window.BragBook || {};
       }
     }
   };
+
+  // --- Native Web Component: <bb-meetings> ---
+  class BBMeetings extends HTMLElement {
+    connectedCallback() {
+      if (this.childElementCount === 0) {
+        this.innerHTML = `
+          <div class="meetings-layout">
+            <!-- Meetings Directory Sidebar -->
+            <aside class="meetings-sidebar">
+              <button id="btn-new-meeting" class="btn btn-primary" style="width: 100%">
+                <span>+</span> New Meeting
+              </button>
+              <div id="meetings-list" class="meetings-list"></div>
+            </aside>
+
+            <!-- Active Meeting Editor -->
+            <div class="meeting-editor card-glass">
+              <div class="meeting-toolbar">
+                <div style="display: flex; gap: 8px; flex: 1">
+                  <input
+                    type="text"
+                    id="meeting-title-input"
+                    class="form-input"
+                    placeholder="Meeting Title (e.g. Q4 Infrastructure Architecture)"
+                    style="font-weight: 700; font-size: 1.05rem"
+                  />
+                  <input
+                    type="date"
+                    id="meeting-date-input"
+                    class="form-input"
+                    style="max-width: 160px"
+                  />
+                </div>
+                <div style="display: flex; gap: 8px">
+                  <button
+                    type="button"
+                    id="btn-insert-timestamp"
+                    class="btn timestamp-btn btn-sm"
+                    title="Insert [HH:MM] timestamp at cursor (Shortcut: Ctrl+T)"
+                  >
+                    ⏱️ Timestamp [HH:MM]
+                  </button>
+                  <button
+                    type="button"
+                    id="btn-delete-meeting"
+                    class="btn btn-ghost btn-sm"
+                    style="color: #f43f5e"
+                    title="Delete this meeting"
+                  >
+                    🗑️
+                  </button>
+                </div>
+              </div>
+
+              <div class="input-row">
+                <input
+                  type="text"
+                  id="meeting-project-input"
+                  class="form-input"
+                  placeholder="Project / Client"
+                  style="flex: 1"
+                />
+                <input
+                  type="text"
+                  id="meeting-attendees-input"
+                  class="form-input"
+                  placeholder="Attendees (e.g. Alice, Bob, Charlie)"
+                  style="flex: 2"
+                />
+              </div>
+
+              <!-- Notes Body -->
+              <textarea
+                id="meeting-notes-textarea"
+                class="form-textarea"
+                rows="12"
+                placeholder="Live meeting notes... Use Ctrl+T to insert timestamps during discussions."
+              ></textarea>
+
+              <!-- Action Items Checklist -->
+              <div class="action-items-box">
+                <div style="display: flex; align-items: center; justify-content: space-between">
+                  <strong style="font-size: 0.95rem">⚡ Action Items (To-Do)</strong>
+                  <button
+                    type="button"
+                    id="btn-sync-action-items"
+                    class="btn btn-secondary btn-sm"
+                    title="Push checked action items to Kanban/Journal"
+                  >
+                    📤 Sync to Kanban
+                  </button>
+                </div>
+
+                <div
+                  id="action-items-container"
+                  style="display: flex; flex-direction: column; gap: 8px"
+                ></div>
+
+                <div style="display: flex; gap: 8px; margin-top: 6px">
+                  <input
+                    type="text"
+                    id="input-new-action-item"
+                    class="form-input"
+                    placeholder="Add action item (Press Enter)..."
+                    style="font-size: 0.85rem; padding: 8px 12px"
+                  />
+                  <button type="button" id="btn-add-action-item" class="btn btn-secondary btn-sm">
+                    Add
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+    }
+  }
+
+  if (typeof customElements !== 'undefined' && !customElements.get('bb-meetings')) {
+    customElements.define('bb-meetings', BBMeetings);
+  }
 })();

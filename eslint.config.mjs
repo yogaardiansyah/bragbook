@@ -28,6 +28,8 @@ export default [
         prompt: 'readonly',
         crypto: 'readonly',
         Event: 'readonly',
+        HTMLElement: 'readonly',
+        customElements: 'readonly',
         HTMLDialogElement: 'readonly',
         BragBook: 'writable'
       }

@@ -330,4 +330,128 @@ window.BragBook = window.BragBook || {};
       if (this.modal && this.modal.close) this.modal.close();
     }
   };
+
+  // --- Native Web Component: <bb-journal> ---
+  class BBJournal extends HTMLElement {
+    connectedCallback() {
+      if (this.childElementCount === 0) {
+        this.innerHTML = `
+          <div class="journal-layout">
+            <!-- Quick Capture Form Card -->
+            <div class="card-glass">
+              <form id="form-quick-entry" class="quick-capture-form">
+                <div class="input-row">
+                  <div class="input-main-wrap">
+                    <input
+                      type="text"
+                      id="input-entry-title"
+                      class="form-input"
+                      placeholder="What did you accomplish or work on? (e.g., Fixed memory leak in auth service)"
+                      required
+                      autocomplete="off"
+                    />
+                  </div>
+                  <button type="submit" class="btn btn-primary"><span>+</span> Add Log</button>
+                </div>
+
+                <div class="input-row">
+                  <div style="flex: 1; min-width: 160px">
+                    <input
+                      type="text"
+                      id="input-entry-project"
+                      class="form-input"
+                      placeholder="Project / Client (e.g. Core App)"
+                      autocomplete="off"
+                    />
+                  </div>
+
+                  <div style="min-width: 140px">
+                    <select id="select-entry-impact" class="form-select" title="Impact Level">
+                      <option value="medium">Impact: Medium</option>
+                      <option value="high">Impact: High 🔥</option>
+                      <option value="low">Impact: Low</option>
+                    </select>
+                  </div>
+
+                  <div style="min-width: 150px">
+                    <select id="select-entry-status" class="form-select" title="Task Status">
+                      <option value="done">Status: Done ✅</option>
+                      <option value="in_progress">Status: In Progress ⚡</option>
+                      <option value="backlog">Status: Backlog 📌</option>
+                      <option value="blocked">Status: Blocked 🚧</option>
+                    </select>
+                  </div>
+
+                  <div style="min-width: 140px">
+                    <input
+                      type="date"
+                      id="input-entry-date"
+                      class="form-input"
+                      title="Date of Entry"
+                    />
+                  </div>
+                </div>
+
+                <!-- Quick Tag Selector -->
+                <div class="quick-tags-container">
+                  <span class="quick-tag-label">Quick Tags:</span>
+                  <button type="button" class="tag-chip" data-tag="#feat">+ #feat</button>
+                  <button type="button" class="tag-chip" data-tag="#fix">+ #fix</button>
+                  <button type="button" class="tag-chip" data-tag="#review">+ #review</button>
+                  <button type="button" class="tag-chip" data-tag="#meeting">+ #meeting</button>
+                  <button type="button" class="tag-chip" data-tag="#infra">+ #infra</button>
+                  <button type="button" class="tag-chip" data-tag="#doc">+ #doc</button>
+                  <button type="button" class="tag-chip" data-tag="#refactor">+ #refactor</button>
+                  <input type="hidden" id="hidden-selected-tags" value="" />
+                </div>
+              </form>
+            </div>
+
+            <!-- Filter & Search Toolbar -->
+            <div class="journal-filter-bar">
+              <div class="filter-search-box">
+                <input
+                  type="search"
+                  id="input-search-query"
+                  class="form-input"
+                  placeholder="🔍 Search accomplishments, commit hashes, or tags..."
+                  autocomplete="off"
+                />
+              </div>
+              <div style="display: flex; gap: 8px; flex-wrap: wrap">
+                <select id="filter-project" class="form-select" style="min-width: 130px">
+                  <option value="all">All Projects</option>
+                </select>
+                <select id="filter-impact" class="form-select" style="min-width: 130px">
+                  <option value="all">All Impacts</option>
+                  <option value="high">High Only 🔥</option>
+                  <option value="medium">Medium Only</option>
+                  <option value="low">Low Only</option>
+                </select>
+                <select id="filter-status" class="form-select" style="min-width: 130px">
+                  <option value="all">All Statuses</option>
+                  <option value="done">Done ✅</option>
+                  <option value="in_progress">In Progress ⚡</option>
+                  <option value="backlog">Backlog 📌</option>
+                  <option value="blocked">Blocked 🚧</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Entries Timeline List -->
+            <div
+              id="journal-timeline"
+              class="timeline-container"
+              role="feed"
+              aria-label="Work Journal Entries"
+            ></div>
+          </div>
+        `;
+      }
+    }
+  }
+
+  if (typeof customElements !== 'undefined' && !customElements.get('bb-journal')) {
+    customElements.define('bb-journal', BBJournal);
+  }
 })();

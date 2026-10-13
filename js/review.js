@@ -185,4 +185,96 @@ window.BragBook = window.BragBook || {};
       }
     }
   };
+
+  // --- Native Web Component: <bb-review> ---
+  class BBReview extends HTMLElement {
+    connectedCallback() {
+      if (this.childElementCount === 0) {
+        this.innerHTML = `
+          <div class="review-layout">
+            <!-- Controls Column -->
+            <div class="review-controls card-glass">
+              <h2 style="font-size: 1.1rem; font-weight: 700">Performance Review Copilot</h2>
+              <p style="color: var(--text-muted); font-size: 0.85rem">
+                Transform raw accomplishments into high-impact career statements following the
+                Google XYZ / STAR format.
+              </p>
+
+              <div style="display: flex; flex-direction: column; gap: 6px">
+                <label
+                  for="select-review-period"
+                  style="font-size: 0.8rem; font-weight: 600; color: var(--text-dim)"
+                  >TIMEFRAME</label
+                >
+                <select id="select-review-period" class="form-select">
+                  <option value="this_week">This Week</option>
+                  <option value="this_month">This Month</option>
+                  <option value="this_quarter" selected>This Quarter (Q1-Q4)</option>
+                  <option value="all_time">All Time</option>
+                </select>
+              </div>
+
+              <div style="display: flex; flex-direction: column; gap: 6px">
+                <label style="font-size: 0.8rem; font-weight: 600; color: var(--text-dim)"
+                  >ACTIVE AI ENGINE</label
+                >
+                <div
+                  id="review-engine-status"
+                  class="metric-pill"
+                  style="justify-content: flex-start; padding: 10px 14px"
+                >
+                  <span id="review-engine-dot">🟢</span>
+                  <span id="review-engine-label">Local Ollama / LM Studio</span>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                id="btn-generate-review"
+                class="btn btn-primary"
+                style="margin-top: 10px"
+              >
+                ✨ Generate STAR Bullets
+              </button>
+              <button type="button" id="btn-generate-offline-report" class="btn btn-secondary">
+                📄 Generate Markdown Report (Offline)
+              </button>
+            </div>
+
+            <!-- Output Column -->
+            <div class="review-output-card card-glass">
+              <div style="display: flex; align-items: center; justify-content: space-between">
+                <h3 style="font-size: 1rem; font-weight: 700">Generated Review Summary</h3>
+                <div style="display: flex; gap: 8px">
+                  <button
+                    type="button"
+                    id="btn-copy-review"
+                    class="btn btn-secondary btn-sm"
+                    title="Copy to clipboard"
+                  >
+                    📋 Copy
+                  </button>
+                  <button
+                    type="button"
+                    id="btn-download-review-md"
+                    class="btn btn-secondary btn-sm"
+                    title="Download Markdown file"
+                  >
+                    💾 Export .md
+                  </button>
+                </div>
+              </div>
+
+              <pre id="review-output-text" class="output-pre">
+Click "Generate STAR Bullets" or "Generate Markdown Report" to compile your accomplishments for this period.</pre>
+            </div>
+          </div>
+        `;
+      }
+    }
+  }
+
+  if (typeof customElements !== 'undefined' && !customElements.get('bb-review')) {
+    customElements.define('bb-review', BBReview);
+  }
 })();

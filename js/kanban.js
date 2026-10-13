@@ -158,4 +158,63 @@ window.BragBook = window.BragBook || {};
       });
     }
   };
+
+  // --- Native Web Component: <bb-kanban> ---
+  class BBKanban extends HTMLElement {
+    connectedCallback() {
+      if (this.childElementCount === 0) {
+        this.innerHTML = `
+          <div class="kanban-board">
+            <!-- Column 1: Backlog -->
+            <div class="kanban-column" data-status="backlog">
+              <div class="kanban-column-header">
+                <div class="column-title-group" style="color: var(--status-backlog)">
+                  <span>📌</span> Backlog / Planning
+                </div>
+                <span id="kanban-count-backlog" class="kanban-counter">0</span>
+              </div>
+              <div id="zone-backlog" class="kanban-dropzone" data-status="backlog"></div>
+            </div>
+
+            <!-- Column 2: In Progress -->
+            <div class="kanban-column" data-status="in_progress">
+              <div class="kanban-column-header">
+                <div class="column-title-group" style="color: var(--status-in-progress)">
+                  <span>⚡</span> In Progress / Doing
+                </div>
+                <span id="kanban-count-in_progress" class="kanban-counter">0</span>
+              </div>
+              <div id="zone-in_progress" class="kanban-dropzone" data-status="in_progress"></div>
+            </div>
+
+            <!-- Column 3: Done -->
+            <div class="kanban-column" data-status="done">
+              <div class="kanban-column-header">
+                <div class="column-title-group" style="color: var(--status-done)">
+                  <span>✅</span> Done / Wins
+                </div>
+                <span id="kanban-count-done" class="kanban-counter">0</span>
+              </div>
+              <div id="zone-done" class="kanban-dropzone" data-status="done"></div>
+            </div>
+
+            <!-- Column 4: Blocked -->
+            <div class="kanban-column" data-status="blocked">
+              <div class="kanban-column-header">
+                <div class="column-title-group" style="color: var(--status-blocked)">
+                  <span>🚧</span> Blocked / Issues
+                </div>
+                <span id="kanban-count-blocked" class="kanban-counter">0</span>
+              </div>
+              <div id="zone-blocked" class="kanban-dropzone" data-status="blocked"></div>
+            </div>
+          </div>
+        `;
+      }
+    }
+  }
+
+  if (typeof customElements !== 'undefined' && !customElements.get('bb-kanban')) {
+    customElements.define('bb-kanban', BBKanban);
+  }
 })();

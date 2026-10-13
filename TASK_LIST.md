@@ -17,6 +17,7 @@ This task list serves as the central progress tracker for human contributors and
 - [x] **Phase 9: Extension (Manifest V3) & PWA Packaging**
 - [x] **Phase 10: Accessibility, Performance & Final Polish**
 - [x] **Phase 11: Modular Architectural Refactor & Blackbox Test Automation**
+- [x] **Phase 12: Native Web Components Architecture (<bb-journal>, <bb-kanban>, etc.)**
 
 ---
 
@@ -116,4 +117,12 @@ This task list serves as the central progress tracker for human contributors and
 - [x] Build automated Blackbox & Chrome DevTools Protocol (CDP) test suite in `tests/blackbox.spec.js`.
 - [x] Verify all 10 core functional categories: Boot & Runtime, Visual Layout, Journal Quick Capture, Search & Filtering, Kanban Board, Live Meetings & Timestamps, Standup Copilot, Performance Review, AI Settings BYOK, and Backup & JSON Portability.
 - [x] Achieve 42/42 passing test scenarios with 0 console errors and 1.57 MB JS heap footprint.
+
+---
+
+### Phase 12: Native Web Components Decomposition (Completed)
+- [x] Refactor `index.html` from 824 lines down to a clean ~120-line declarative shell.
+- [x] Implement Light-DOM Native Custom Elements: `<bb-journal>`, `<bb-kanban>`, `<bb-meetings>`, `<bb-review>`, and `<bb-modals>`.
+- [x] Maintain 100% Zero-Server, Zero-CORS, and offline `file:///` protocol capability without HTMX dependency.
+- [x] Verify all 42 automated blackbox tests pass with zero console errors.
 

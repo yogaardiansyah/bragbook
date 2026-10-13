@@ -332,7 +332,15 @@ body::after {
   color: var(--text-main);
 }
 
-/* --- Tab Panels --- */
+/* --- Tab Panels & Native Web Components --- */
+bb-journal,
+bb-kanban,
+bb-meetings,
+bb-review,
+bb-modals {
+  display: block;
+}
+
 .tab-panel {
   display: none;
   animation: fadeIn 0.2s ease-in-out;
