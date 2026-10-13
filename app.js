@@ -1035,6 +1035,209 @@
     }
   };
 
+  // --- Standup Copilot Controller ---
+  const StandupController = {
+    modal: null,
+
+    init() {
+      this.modal = document.getElementById('modal-standup');
+      const btnOpen = document.getElementById('btn-open-standup');
+      if (btnOpen) {
+        btnOpen.addEventListener('click', () => {
+          this.open();
+        });
+      }
+
+      const btnCopy = document.getElementById('btn-copy-standup-slack');
+      if (btnCopy) {
+        btnCopy.addEventListener('click', () => {
+          const text = document.getElementById('standup-output-text').textContent;
+          navigator.clipboard.writeText(text).then(() => {
+            const originalText = btnCopy.textContent;
+            btnCopy.textContent = '✅ Copied to Clipboard!';
+            setTimeout(() => { btnCopy.textContent = originalText; }, 2000);
+          }).catch(err => {
+            console.error('Failed to copy text:', err);
+          });
+        });
+      }
+    },
+
+    open() {
+      const output = document.getElementById('standup-output-text');
+      output.textContent = this.generateDraft();
+      if (this.modal.showModal) this.modal.showModal();
+    },
+
+    generateDraft() {
+      const todayStr = Utils.getTodayDateString();
+      const yesterday = new Date();
+      yesterday.setDate(yesterday.getDate() - 1);
+      const yesterdayStr = yesterday.toISOString().split('T')[0];
+
+      // Done items (done today, yesterday, or recent done)
+      const doneItems = State.entries.filter(e => {
+        if (e.status !== 'done') return false;
+        const entryDate = (e.completedAt || e.createdAt || '').split('T')[0];
+        return entryDate === todayStr || entryDate === yesterdayStr;
+      });
+
+      // If no done items today/yesterday, take up to 5 most recent done items
+      const finalDone = doneItems.length ? doneItems : State.entries.filter(e => e.status === 'done').slice(0, 5);
+
+      // In progress items
+      const inProgressItems = State.entries.filter(e => e.status === 'in_progress');
+
+      // Blocked items
+      const blockedItems = State.entries.filter(e => e.status === 'blocked');
+
+      let draft = `🚀 Daily Standup — ${new Date().toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })}\n\n`;
+
+      draft += `✅ Yesterday / Done:\n`;
+      if (finalDone.length) {
+        finalDone.forEach(item => {
+          const tagsStr = (item.tags || []).length ? ` (${item.tags.join(', ')})` : '';
+          draft += `• [${item.project || 'General'}] ${item.title}${tagsStr}\n`;
+        });
+      } else {
+        draft += `• No completed items recorded recently.\n`;
+      }
+
+      draft += `\n⚡ Today / In Progress:\n`;
+      if (inProgressItems.length) {
+        inProgressItems.forEach(item => {
+          const tagsStr = (item.tags || []).length ? ` (${item.tags.join(', ')})` : '';
+          draft += `• [${item.project || 'General'}] ${item.title}${tagsStr}\n`;
+        });
+      } else {
+        draft += `• No active tasks currently in progress.\n`;
+      }
+
+      draft += `\n🚧 Blockers:\n`;
+      if (blockedItems.length) {
+        blockedItems.forEach(item => {
+          const notes = item.blockerNotes ? `: ${item.blockerNotes}` : '';
+          draft += `• [${item.project || 'General'}] ${item.title}${notes}\n`;
+        });
+      } else {
+        draft += `• None! Smooth sailing.\n`;
+      }
+
+      return draft;
+    }
+  };
+
+  // --- Performance Review Controller (Offline Generator & Foundation) ---
+  const ReviewController = {
+    init() {
+      const btnOffline = document.getElementById('btn-generate-offline-report');
+      if (btnOffline) {
+        btnOffline.addEventListener('click', () => {
+          this.generateOfflineReport();
+        });
+      }
+
+      const btnCopy = document.getElementById('btn-copy-review');
+      if (btnCopy) {
+        btnCopy.addEventListener('click', () => {
+          const text = document.getElementById('review-output-text').textContent;
+          navigator.clipboard.writeText(text).then(() => {
+            const orig = btnCopy.textContent;
+            btnCopy.textContent = '✅ Copied!';
+            setTimeout(() => { btnCopy.textContent = orig; }, 2000);
+          });
+        });
+      }
+
+      const btnDownload = document.getElementById('btn-download-review-md');
+      if (btnDownload) {
+        btnDownload.addEventListener('click', () => {
+          const content = document.getElementById('review-output-text').textContent;
+          const blob = new Blob([content], { type: 'text/markdown;charset=utf-8' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `bragbook-review-${Utils.getTodayDateString()}.md`;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+        });
+      }
+    },
+
+    getEntriesForSelectedPeriod() {
+      const period = document.getElementById('select-review-period').value;
+      const now = new Date();
+
+      return State.entries.filter(e => {
+        if (e.status !== 'done') return false; // Focus on completed wins
+        const d = new Date(e.completedAt || e.createdAt || now);
+
+        if (period === 'this_week') {
+          const sevenDaysAgo = new Date();
+          sevenDaysAgo.setDate(now.getDate() - 7);
+          return d >= sevenDaysAgo;
+        }
+
+        if (period === 'this_month') {
+          return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+        }
+
+        if (period === 'this_quarter') {
+          const currentQuarter = Math.floor(now.getMonth() / 3);
+          const entryQuarter = Math.floor(d.getMonth() / 3);
+          return entryQuarter === currentQuarter && d.getFullYear() === now.getFullYear();
+        }
+
+        return true; // 'all_time'
+      });
+    },
+
+    generateOfflineReport() {
+      const periodLabel = document.getElementById('select-review-period').selectedOptions[0].text;
+      const completedEntries = this.getEntriesForSelectedPeriod();
+      const output = document.getElementById('review-output-text');
+
+      if (!completedEntries.length) {
+        output.textContent = `# 🏆 Executive Accomplishment Report\n**Period:** ${periodLabel}\n\nNo completed accomplishments found for this period. Mark tasks as "Done" to include them in the review.`;
+        return;
+      }
+
+      const highImpact = completedEntries.filter(e => e.impact === 'high');
+      const medImpact = completedEntries.filter(e => e.impact === 'medium');
+
+      // Group by project
+      const byProject = {};
+      completedEntries.forEach(e => {
+        const p = e.project || 'General';
+        if (!byProject[p]) byProject[p] = [];
+        byProject[p].push(e);
+      });
+
+      let md = `# 🏆 Executive Accomplishment Report\n`;
+      md += `**Timeframe:** ${periodLabel} | **Generated On:** ${new Date().toLocaleDateString()}\n\n`;
+      md += `### 📊 Impact Metrics\n`;
+      md += `* **Total Accomplishments:** ${completedEntries.length}\n`;
+      md += `* **High Impact Milestones:** ${highImpact.length}\n`;
+      md += `* **Medium Impact Deliverables:** ${medImpact.length}\n\n`;
+      md += `### 🎯 Accomplishments by Project\n\n`;
+
+      Object.keys(byProject).sort().forEach(project => {
+        md += `#### 📁 Project: ${project}\n`;
+        byProject[project].forEach(item => {
+          const impactLabel = item.impact === 'high' ? ' [HIGH IMPACT 🔥]' : '';
+          const tags = (item.tags || []).length ? ` \`${item.tags.join(' ')}\`` : '';
+          const dateStr = Utils.formatDateDisplay((item.completedAt || item.createdAt || '').split('T')[0]);
+          md += `* **${item.title}**${impactLabel}${tags} — *(${dateStr})*\n`;
+        });
+        md += `\n`;
+      });
+
+      output.textContent = md;
+    }
+  };
+
   // --- Modal Utilities ---
   const Modals = {
     init() {
@@ -1060,6 +1263,8 @@
     KanbanController.init();
     KanbanController.renderBoard();
     MeetingController.init();
+    StandupController.init();
+    ReviewController.init();
     MetricsController.updateCounters();
   });
 })();
