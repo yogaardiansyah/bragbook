@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BragBook — Private Work Journal, Kanban & Meeting Copilot</title>
+  <meta name="description" content="100% Local-First, Zero-Server Work Journal, Kanban Board, Live Meeting Notes with Timestamping, and Standup Copilot.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="brand-wrapper">
+        <div class="brand-logo" aria-hidden="true">📖</div>
+        <div>
+          <h1 class="brand-title">BragBook</h1>
+        </div>
+        <span class="brand-badge">Local-First</span>
+      </div>
+
+      <div class="header-metrics">
+        <div class="metric-pill streak" title="Consecutive active work days">
+          <span>🔥</span>
+          <strong id="streak-counter">0</strong>
+          <span>day streak</span>
+        </div>
+        <div class="metric-pill" title="Accomplishments marked as Done">
+          <span>🏆</span>
+          <strong id="wins-counter">0</strong>
+          <span>accomplishments</span>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button id="btn-open-standup" class="btn btn-primary btn-sm" title="Generate Daily Standup Draft">
+          <span>⚡</span> Standup Copilot
+        </button>
+        <button id="btn-open-settings" class="btn btn-secondary btn-icon" title="AI & App Settings" aria-label="Settings">
+          ⚙️
+        </button>
+        <button id="btn-open-backup" class="btn btn-secondary btn-icon" title="Backup & Restore Data" aria-label="Backup and Restore">
+          💾
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Navigation Tab Switcher -->
+    <nav class="tab-navigation" role="tablist" aria-label="Primary navigation">
+      <button id="tab-btn-journal" class="tab-btn active" role="tab" aria-selected="true" aria-controls="panel-journal">
+        <span>📜</span> Journal & Log
+        <span id="badge-journal-count" class="tab-badge">0</span>
+      </button>
+      <button id="tab-btn-kanban" class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-kanban">
+        <span>📋</span> Kanban Board
+        <span id="badge-kanban-count" class="tab-badge">0</span>
+      </button>
+      <button id="tab-btn-meetings" class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-meetings">
+        <span>🎙️</span> Meeting Notes
+        <span id="badge-meetings-count" class="tab-badge">0</span>
+      </button>
+      <button id="tab-btn-review" class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-review">
+        <span>🚀</span> Performance Review
+      </button>
+    </nav>
+
+    <!-- Main Viewport Panels -->
+    <main>
+      <!-- TAB 1: JOURNAL & WORK LOG -->
+      <section id="panel-journal" class="tab-panel active" role="tabpanel" aria-labelledby="tab-btn-journal">
+        <div class="journal-layout">
+          <!-- Quick Capture Form Card -->
+          <div class="card-glass">
+            <form id="form-quick-entry" class="quick-capture-form">
+              <div class="input-row">
+                <div class="input-main-wrap">
+                  <input type="text" id="input-entry-title" class="form-input" placeholder="What did you accomplish or work on? (e.g., Fixed memory leak in auth service)" required autocomplete="off">
+                </div>
+                <button type="submit" class="btn btn-primary">
+                  <span>+</span> Add Log
+                </button>
+              </div>
+
+              <div class="input-row">
+                <div style="flex: 1; min-width: 160px;">
+                  <input type="text" id="input-entry-project" class="form-input" placeholder="Project / Client (e.g. Core App)" autocomplete="off">
+                </div>
+
+                <div style="min-width: 140px;">
+                  <select id="select-entry-impact" class="form-select" title="Impact Level">
+                    <option value="medium">Impact: Medium</option>
+                    <option value="high">Impact: High 🔥</option>
+                    <option value="low">Impact: Low</option>
+                  </select>
+                </div>
+
+                <div style="min-width: 150px;">
+                  <select id="select-entry-status" class="form-select" title="Task Status">
+                    <option value="done">Status: Done ✅</option>
+                    <option value="in_progress">Status: In Progress ⚡</option>
+                    <option value="backlog">Status: Backlog 📌</option>
+                    <option value="blocked">Status: Blocked 🚧</option>
+                  </select>
+                </div>
+
+                <div style="min-width: 140px;">
+                  <input type="date" id="input-entry-date" class="form-input" title="Date of Entry">
+                </div>
+              </div>
+
+              <!-- Quick Tag Selector -->
+              <div class="quick-tags-container">
+                <span class="quick-tag-label">Quick Tags:</span>
+                <button type="button" class="tag-chip" data-tag="#feat">+ #feat</button>
+                <button type="button" class="tag-chip" data-tag="#fix">+ #fix</button>
+                <button type="button" class="tag-chip" data-tag="#review">+ #review</button>
+                <button type="button" class="tag-chip" data-tag="#meeting">+ #meeting</button>
+                <button type="button" class="tag-chip" data-tag="#infra">+ #infra</button>
+                <button type="button" class="tag-chip" data-tag="#doc">+ #doc</button>
+                <button type="button" class="tag-chip" data-tag="#refactor">+ #refactor</button>
+                <input type="hidden" id="hidden-selected-tags" value="">
+              </div>
+            </form>
+          </div>
+
+          <!-- Filter & Search Toolbar -->
+          <div class="journal-filter-bar">
+            <div class="filter-search-box">
+              <input type="search" id="input-search-query" class="form-input" placeholder="🔍 Search accomplishments, commit hashes, or tags..." autocomplete="off">
+            </div>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+              <select id="filter-project" class="form-select" style="min-width: 130px;">
+                <option value="all">All Projects</option>
+              </select>
+              <select id="filter-impact" class="form-select" style="min-width: 130px;">
+                <option value="all">All Impacts</option>
+                <option value="high">High Only 🔥</option>
+                <option value="medium">Medium Only</option>
+                <option value="low">Low Only</option>
+              </select>
+              <select id="filter-status" class="form-select" style="min-width: 130px;">
+                <option value="all">All Statuses</option>
+                <option value="done">Done ✅</option>
+                <option value="in_progress">In Progress ⚡</option>
+                <option value="backlog">Backlog 📌</option>
+                <option value="blocked">Blocked 🚧</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Entries Timeline List -->
+          <div id="journal-timeline" class="timeline-container" role="feed" aria-label="Work Journal Entries">
+            <!-- Rendered reactively via app.js -->
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 2: KANBAN BOARD -->
+      <section id="panel-kanban" class="tab-panel" role="tabpanel" aria-labelledby="tab-btn-kanban">
+        <div class="kanban-board">
+          <!-- Column 1: Backlog -->
+          <div class="kanban-column" data-status="backlog">
+            <div class="kanban-column-header">
+              <div class="column-title-group" style="color: var(--status-backlog);">
+                <span>📌</span> Backlog / Planning
+              </div>
+              <span id="kanban-count-backlog" class="kanban-counter">0</span>
+            </div>
+            <div id="zone-backlog" class="kanban-dropzone" data-status="backlog"></div>
+          </div>
+
+          <!-- Column 2: In Progress -->
+          <div class="kanban-column" data-status="in_progress">
+            <div class="kanban-column-header">
+              <div class="column-title-group" style="color: var(--status-in-progress);">
+                <span>⚡</span> In Progress / Doing
+              </div>
+              <span id="kanban-count-in_progress" class="kanban-counter">0</span>
+            </div>
+            <div id="zone-in_progress" class="kanban-dropzone" data-status="in_progress"></div>
+          </div>
+
+          <!-- Column 3: Done -->
+          <div class="kanban-column" data-status="done">
+            <div class="kanban-column-header">
+              <div class="column-title-group" style="color: var(--status-done);">
+                <span>✅</span> Done / Wins
+              </div>
+              <span id="kanban-count-done" class="kanban-counter">0</span>
+            </div>
+            <div id="zone-done" class="kanban-dropzone" data-status="done"></div>
+          </div>
+
+          <!-- Column 4: Blocked -->
+          <div class="kanban-column" data-status="blocked">
+            <div class="kanban-column-header">
+              <div class="column-title-group" style="color: var(--status-blocked);">
+                <span>🚧</span> Blocked / Issues
+              </div>
+              <span id="kanban-count-blocked" class="kanban-counter">0</span>
+            </div>
+            <div id="zone-blocked" class="kanban-dropzone" data-status="blocked"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 3: LIVE MEETING NOTES -->
+      <section id="panel-meetings" class="tab-panel" role="tabpanel" aria-labelledby="tab-btn-meetings">
+        <div class="meetings-layout">
+          <!-- Meetings Directory Sidebar -->
+          <aside class="meetings-sidebar">
+            <button id="btn-new-meeting" class="btn btn-primary" style="width: 100%;">
+              <span>+</span> New Meeting
+            </button>
+            <div id="meetings-list" class="meetings-list">
+              <!-- Rendered reactively via app.js -->
+            </div>
+          </aside>
+
+          <!-- Active Meeting Editor -->
+          <div class="meeting-editor card-glass">
+            <div class="meeting-toolbar">
+              <div style="display: flex; gap: 8px; flex: 1;">
+                <input type="text" id="meeting-title-input" class="form-input" placeholder="Meeting Title (e.g. Q4 Infrastructure Architecture)" style="font-weight: 700; font-size: 1.05rem;">
+                <input type="date" id="meeting-date-input" class="form-input" style="max-width: 160px;">
+              </div>
+              <div style="display: flex; gap: 8px;">
+                <button type="button" id="btn-insert-timestamp" class="btn timestamp-btn btn-sm" title="Insert [HH:MM] timestamp at cursor (Shortcut: Ctrl+T)">
+                  ⏱️ Timestamp [HH:MM]
+                </button>
+                <button type="button" id="btn-delete-meeting" class="btn btn-ghost btn-sm" style="color: #f43f5e;" title="Delete this meeting">
+                  🗑️
+                </button>
+              </div>
+            </div>
+
+            <div class="input-row">
+              <input type="text" id="meeting-project-input" class="form-input" placeholder="Project / Client" style="flex: 1;">
+              <input type="text" id="meeting-attendees-input" class="form-input" placeholder="Attendees (e.g. Alice, Bob, Charlie)" style="flex: 2;">
+            </div>
+
+            <!-- Notes Body -->
+            <textarea id="meeting-notes-textarea" class="form-textarea" rows="12" placeholder="Live meeting notes... Use Ctrl+T to insert timestamps during discussions."></textarea>
+
+            <!-- Action Items Checklist -->
+            <div class="action-items-box">
+              <div style="display: flex; align-items: center; justify-content: space-between;">
+                <strong style="font-size: 0.95rem;">⚡ Action Items (To-Do)</strong>
+                <button type="button" id="btn-sync-action-items" class="btn btn-secondary btn-sm" title="Push checked action items to Kanban/Journal">
+                  📤 Sync to Kanban
+                </button>
+              </div>
+
+              <div id="action-items-container" style="display: flex; flex-direction: column; gap: 8px;">
+                <!-- Action items list -->
+              </div>
+
+              <div style="display: flex; gap: 8px; margin-top: 6px;">
+                <input type="text" id="input-new-action-item" class="form-input" placeholder="Add action item (Press Enter)..." style="font-size: 0.85rem; padding: 8px 12px;">
+                <button type="button" id="btn-add-action-item" class="btn btn-secondary btn-sm">Add</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 4: PERFORMANCE REVIEW & AI COPILOT -->
+      <section id="panel-review" class="tab-panel" role="tabpanel" aria-labelledby="tab-btn-review">
+        <div class="review-layout">
+          <!-- Controls Column -->
+          <div class="review-controls card-glass">
+            <h2 style="font-size: 1.1rem; font-weight: 700;">Performance Review Copilot</h2>
+            <p style="color: var(--text-muted); font-size: 0.85rem;">Transform raw accomplishments into high-impact career statements following the Google XYZ / STAR format.</p>
+
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+              <label for="select-review-period" style="font-size: 0.8rem; font-weight: 600; color: var(--text-dim);">TIMEFRAME</label>
+              <select id="select-review-period" class="form-select">
+                <option value="this_week">This Week</option>
+                <option value="this_month">This Month</option>
+                <option value="this_quarter" selected>This Quarter (Q1-Q4)</option>
+                <option value="all_time">All Time</option>
+              </select>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+              <label style="font-size: 0.8rem; font-weight: 600; color: var(--text-dim);">ACTIVE AI ENGINE</label>
+              <div id="review-engine-status" class="metric-pill" style="justify-content: flex-start; padding: 10px 14px;">
+                <span id="review-engine-dot">🟢</span>
+                <span id="review-engine-label">Local Ollama / LM Studio</span>
+              </div>
+            </div>
+
+            <button type="button" id="btn-generate-review" class="btn btn-primary" style="margin-top: 10px;">
+              ✨ Generate STAR Bullets
+            </button>
+            <button type="button" id="btn-generate-offline-report" class="btn btn-secondary">
+              📄 Generate Markdown Report (Offline)
+            </button>
+          </div>
+
+          <!-- Output Column -->
+          <div class="review-output-card card-glass">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <h3 style="font-size: 1rem; font-weight: 700;">Generated Review Summary</h3>
+              <div style="display: flex; gap: 8px;">
+                <button type="button" id="btn-copy-review" class="btn btn-secondary btn-sm" title="Copy to clipboard">
+                  📋 Copy
+                </button>
+                <button type="button" id="btn-download-review-md" class="btn btn-secondary btn-sm" title="Download Markdown file">
+                  💾 Export .md
+                </button>
+              </div>
+            </div>
+
+            <pre id="review-output-text" class="output-pre">Click "Generate STAR Bullets" or "Generate Markdown Report" to compile your accomplishments for this period.</pre>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Native Dialog: Settings Modal -->
+    <dialog id="modal-settings">
+      <div class="modal-header">
+        <h3 class="modal-title">⚙️ BragBook Settings</h3>
+        <button type="button" class="btn btn-ghost btn-icon modal-close-btn" aria-label="Close dialog">✕</button>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <div>
+          <label for="settings-ai-provider" style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px;">AI Engine Selection</label>
+          <select id="settings-ai-provider" class="form-select">
+            <option value="ollama">Local LLM — Ollama / LM Studio (100% Offline & Confidential)</option>
+            <option value="gemini">Cloud BYOK — Google Gemini API (Free Tier Key)</option>
+            <option value="none">Disabled — Use Deterministic Offline Formatter Only</option>
+          </select>
+        </div>
+
+        <!-- Ollama Config Subform -->
+        <div id="subform-ollama" style="display: flex; flex-direction: column; gap: 10px; background: rgba(0,0,0,0.2); padding: 12px; border-radius: var(--radius-md);">
+          <div>
+            <label for="settings-ollama-url" style="display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 4px;">Ollama Endpoint URL</label>
+            <input type="url" id="settings-ollama-url" class="form-input" value="http://localhost:11434/v1">
+          </div>
+          <div>
+            <label for="settings-ollama-model" style="display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 4px;">Model Name</label>
+            <input type="text" id="settings-ollama-model" class="form-input" value="llama3.2" placeholder="e.g. llama3.2, mistral, qwen2.5-coder">
+          </div>
+        </div>
+
+        <!-- Gemini Config Subform -->
+        <div id="subform-gemini" style="display: none; flex-direction: column; gap: 10px; background: rgba(0,0,0,0.2); padding: 12px; border-radius: var(--radius-md);">
+          <div>
+            <label for="settings-gemini-key" style="display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 4px;">Google Gemini API Key</label>
+            <input type="password" id="settings-gemini-key" class="form-input" placeholder="AIzaSy...">
+          </div>
+          <div>
+            <label for="settings-gemini-model" style="display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 4px;">Model</label>
+            <input type="text" id="settings-gemini-model" class="form-input" value="gemini-1.5-flash">
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+          <button type="button" id="btn-test-connection" class="btn btn-secondary btn-sm">
+            🔍 Test Connection
+          </button>
+          <span id="test-connection-status" style="font-size: 0.85rem; font-weight: 600;"></span>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary modal-close-btn">Cancel</button>
+        <button type="button" id="btn-save-settings" class="btn btn-primary">Save Settings</button>
+      </div>
+    </dialog>
+
+    <!-- Native Dialog: Standup Copilot Modal -->
+    <dialog id="modal-standup">
+      <div class="modal-header">
+        <h3 class="modal-title">⚡ Daily Standup Copilot</h3>
+        <button type="button" class="btn btn-ghost btn-icon modal-close-btn" aria-label="Close dialog">✕</button>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 14px;">
+        <p style="color: var(--text-muted); font-size: 0.88rem;">Synthesized draft compiled from your recent accomplishments, active tasks, and blocked tickets.</p>
+        <pre id="standup-output-text" class="output-pre" style="max-height: 320px;"></pre>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary modal-close-btn">Close</button>
+        <button type="button" id="btn-copy-standup-slack" class="btn btn-primary">
+          📋 Copy for Slack / Teams
+        </button>
+      </div>
+    </dialog>
+
+    <!-- Native Dialog: Backup & Portability Modal -->
+    <dialog id="modal-backup">
+      <div class="modal-header">
+        <h3 class="modal-title">💾 Data Backup & Portability</h3>
+        <button type="button" class="btn btn-ghost btn-icon modal-close-btn" aria-label="Close dialog">✕</button>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <p style="color: var(--text-muted); font-size: 0.88rem;">All BragBook data is 100% stored in your browser. Download full backups or restore to another machine at any time.</p>
+
+        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+          <button type="button" id="btn-export-json" class="btn btn-primary" style="flex: 1;">
+            📥 Export Backup (JSON)
+          </button>
+          <label class="btn btn-secondary" style="flex: 1; cursor: pointer;">
+            📤 Import Backup
+            <input type="file" id="input-import-file" accept=".json" style="display: none;">
+          </label>
+        </div>
+
+        <div style="border-top: 1px solid var(--border-subtle); padding-top: 16px; margin-top: 8px;">
+          <button type="button" id="btn-reset-database" class="btn btn-ghost" style="color: #f43f5e; width: 100%;">
+            ⚠️ Clear All Data (Reset)
+          </button>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary modal-close-btn">Close</button>
+      </div>
+    </dialog>
+
+    <!-- Native Dialog: Edit Entry Modal -->
+    <dialog id="modal-edit-entry">
+      <div class="modal-header">
+        <h3 class="modal-title">✏️ Edit Log Entry</h3>
+        <button type="button" class="btn btn-ghost btn-icon modal-close-btn" aria-label="Close dialog">✕</button>
+      </div>
+
+      <form id="form-edit-entry" style="display: flex; flex-direction: column; gap: 12px;">
+        <input type="hidden" id="edit-entry-id">
+        <div>
+          <label for="edit-entry-title" style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 4px;">Task / Accomplishment</label>
+          <input type="text" id="edit-entry-title" class="form-input" required>
+        </div>
+        <div class="input-row">
+          <div style="flex: 1;">
+            <label for="edit-entry-project" style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 4px;">Project</label>
+            <input type="text" id="edit-entry-project" class="form-input">
+          </div>
+          <div style="flex: 1;">
+            <label for="edit-entry-date" style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 4px;">Date</label>
+            <input type="date" id="edit-entry-date" class="form-input">
+          </div>
+        </div>
+        <div class="input-row">
+          <div style="flex: 1;">
+            <label for="edit-entry-impact" style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 4px;">Impact</label>
+            <select id="edit-entry-impact" class="form-select">
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High 🔥</option>
+            </select>
+          </div>
+          <div style="flex: 1;">
+            <label for="edit-entry-status" style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 4px;">Status</label>
+            <select id="edit-entry-status" class="form-select">
+              <option value="backlog">Backlog 📌</option>
+              <option value="in_progress">In Progress ⚡</option>
+              <option value="done">Done ✅</option>
+              <option value="blocked">Blocked 🚧</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label for="edit-entry-blocker" style="display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 4px;">Blocker Notes (if blocked)</label>
+          <input type="text" id="edit-entry-blocker" class="form-input" placeholder="e.g. Waiting on DevOps PR merge">
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary modal-close-btn">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+        </div>
+      </form>
+    </dialog>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

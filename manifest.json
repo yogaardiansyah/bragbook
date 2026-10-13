@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "BragBook — Private Work Journal & Copilot",
+  "short_name": "BragBook",
+  "version": "1.1.0",
+  "description": "100% Local-First Work Journal, 4-Column Kanban Board, Live Meeting Notes & Standup Copilot.",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#080c14",
+  "theme_color": "#6366f1",
+  "icons": [
+    {
+      "src": "icons/icon-128.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "side_panel": {
+    "default_path": "index.html"
+  },
+  "permissions": [
+    "sidePanel"
+  ]
+}
