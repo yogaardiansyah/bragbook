@@ -14,8 +14,8 @@ This task list serves as the central progress tracker for human contributors and
 - [x] **Phase 6: Standup Copilot & Offline Template Formatter**
 - [x] **Phase 7: Dual-Engine AI Integration (Ollama + Gemini)**
 - [x] **Phase 8: Data Portability (Backup/Restore & Markdown)**
-- [ ] **Phase 9: Extension (Manifest V3) & PWA Packaging**
-- [ ] **Phase 10: Accessibility, Performance & Final Polish**
+- [x] **Phase 9: Extension (Manifest V3) & PWA Packaging**
+- [x] **Phase 10: Accessibility, Performance & Final Polish**
 
 ---
 
@@ -93,17 +93,16 @@ This task list serves as the central progress tracker for human contributors and
 - [x] Implement "Export Markdown" for meeting notes and quarterly accomplishment sheets.
 - [x] Implement safe database reset dialog.
 
+---
+
+### Phase 9: Extension (Manifest V3) & PWA Packaging (Completed)
+- [x] Create Manifest V3 `manifest.json` configured for Chrome Side Panel and standard PWA.
+- [x] Generate app icons for 128x128 and 512x512 resolutions.
+- [x] Test side panel compatibility and responsive overflow constraints.
 
 ---
 
-### Phase 9: Extension (Manifest V3) & PWA Packaging
-- [ ] Create Manifest V3 `manifest.json` configured for Chrome Side Panel and standard PWA.
-- [ ] Generate app icons for 128x128 and 512x512 resolutions.
-- [ ] Test side panel compatibility and responsive overflow constraints.
-
----
-
-### Phase 10: Accessibility, Performance & Final Polish
-- [ ] Audit keyboard accessibility (Tab navigation, dialog focus trapping).
-- [ ] Verify offline execution with network disconnected.
-- [ ] Write user-facing [README.md](file:///home/yoga/Documents/Prof/bragbook/README.md) and developer [GUIDEBOOK.md](file:///home/yoga/Documents/Prof/bragbook/GUIDEBOOK.md).
+### Phase 10: Accessibility, Performance & Final Polish (Completed)
+- [x] Audit keyboard accessibility (Tab navigation, dialog focus trapping).
+- [x] Verify offline execution with network disconnected.
+- [x] Write user-facing [README.md](file:///home/yoga/Documents/Prof/bragbook/README.md) and developer [GUIDEBOOK.md](file:///home/yoga/Documents/Prof/bragbook/GUIDEBOOK.md).
