@@ -8,31 +8,114 @@
       name="description"
       content="100% Local-First, Zero-Server Work Journal, Kanban Board, Live Meeting Notes with Timestamping, and Standup Copilot."
     />
-    <link rel="stylesheet" href="style.css" />
-    <link rel="manifest" href="manifest.json" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Atomic Modular Component Stylesheets -->
+    <link rel="stylesheet" href="css/tokens.css" />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/header.css" />
+    <link rel="stylesheet" href="css/nav.css" />
+    <link rel="stylesheet" href="css/journal.css" />
+    <link rel="stylesheet" href="css/kanban.css" />
+    <link rel="stylesheet" href="css/meetings.css" />
+    <link rel="stylesheet" href="css/review.css" />
+    <link rel="stylesheet" href="css/modals.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+    <script>
+      // Load PWA manifest only on HTTP/S origins to avoid file:// CORS security blocking
+      if (window.location.protocol.startsWith('http')) {
+        const link = document.createElement('link');
+        link.rel = 'manifest';
+        link.href = 'manifest.json';
+        document.head.appendChild(link);
+      }
+    </script>
   </head>
   <body>
     <div class="app-layout">
-      <!-- Header -->
+      <!-- Enterprise Executive Header -->
       <header class="app-header">
         <div class="brand-wrapper">
-          <div class="brand-logo" aria-hidden="true">📖</div>
-          <div>
-            <h1 class="brand-title">BragBook</h1>
+          <div class="brand-logo" aria-hidden="true">
+            <svg
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M12 2L2 7l10 5 10-5-10-5z" />
+              <path d="M2 17l10 5 10-5" />
+              <path d="M2 12l10 5 10-5" />
+            </svg>
           </div>
-          <span class="brand-badge">Local-First</span>
+          <div class="brand-text-group">
+            <div class="brand-title-row">
+              <h1 class="brand-title">BragBook</h1>
+              <span class="brand-badge"><span class="badge-dot"></span> ERP Enterprise</span>
+            </div>
+            <span class="brand-sub">Executive Work Journal & Live Meeting Copilot</span>
+          </div>
         </div>
 
         <div class="header-metrics">
           <div class="metric-pill streak" title="Consecutive active work days">
-            <span>🔥</span>
-            <strong id="streak-counter">0</strong>
-            <span>day streak</span>
+            <div class="metric-icon-box">
+              <svg
+                width="15"
+                height="15"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"
+                />
+              </svg>
+            </div>
+            <div class="metric-data">
+              <span class="metric-label">Streak</span>
+              <strong id="streak-counter">0</strong>
+              <span class="metric-unit">days</span>
+            </div>
           </div>
-          <div class="metric-pill" title="Accomplishments marked as Done">
-            <span>🏆</span>
-            <strong id="wins-counter">0</strong>
-            <span>accomplishments</span>
+
+          <div class="metric-pill wins" title="Accomplishments marked as Done">
+            <div class="metric-icon-box">
+              <svg
+                width="15"
+                height="15"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6" />
+                <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18" />
+                <path d="M4 22h16" />
+                <path
+                  d="M10 14.66V17c0 .55-.45 1-1 1H8c-.55 0-1 .45-1 1v1c0 .55.45 1 1 1h8c.55 0 1-.45 1-1v-1c0-.55-.45-1-1-1h-1c-.55 0-1-.45-1-1v-2.34"
+                />
+                <path d="M6 4h12v7a6 6 0 0 1-12 0V4z" />
+              </svg>
+            </div>
+            <div class="metric-data">
+              <span class="metric-label">Wins</span>
+              <strong id="wins-counter">0</strong>
+              <span class="metric-unit">done</span>
+            </div>
           </div>
         </div>
 
@@ -42,7 +125,19 @@
             class="btn btn-primary btn-sm"
             title="Generate Daily Standup Draft"
           >
-            <span>⚡</span> Standup Copilot
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+            </svg>
+            <span>Standup Copilot</span>
           </button>
           <button
             id="btn-open-settings"
@@ -50,7 +145,21 @@
             title="AI & App Settings"
             aria-label="Settings"
           >
-            ⚙️
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="3" />
+              <path
+                d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"
+              />
+            </svg>
           </button>
           <button
             id="btn-open-backup"
@@ -58,7 +167,20 @@
             title="Backup & Restore Data"
             aria-label="Backup and Restore"
           >
-            💾
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <ellipse cx="12" cy="5" rx="9" ry="3" />
+              <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" />
+              <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
+            </svg>
           </button>
         </div>
       </header>
@@ -72,7 +194,24 @@
           aria-selected="true"
           aria-controls="panel-journal"
         >
-          <span>📜</span> Journal & Log
+          <svg
+            class="tab-icon"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+            <polyline points="14 2 14 8 20 8" />
+            <line x1="16" y1="13" x2="8" y2="13" />
+            <line x1="16" y1="17" x2="8" y2="17" />
+            <polyline points="10 9 9 9 8 9" />
+          </svg>
+          <span>Activity Journal</span>
           <span id="badge-journal-count" class="tab-badge">0</span>
         </button>
         <button
@@ -82,7 +221,22 @@
           aria-selected="false"
           aria-controls="panel-kanban"
         >
-          <span>📋</span> Kanban Board
+          <svg
+            class="tab-icon"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <rect x="3" y="3" width="18" height="18" rx="2" />
+            <line x1="9" y1="3" x2="9" y2="21" />
+            <line x1="15" y1="3" x2="15" y2="21" />
+          </svg>
+          <span>Kanban Delivery</span>
           <span id="badge-kanban-count" class="tab-badge">0</span>
         </button>
         <button
@@ -92,7 +246,23 @@
           aria-selected="false"
           aria-controls="panel-meetings"
         >
-          <span>🎙️</span> Meeting Notes
+          <svg
+            class="tab-icon"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+            <line x1="12" y1="19" x2="12" y2="23" />
+            <line x1="8" y1="23" x2="16" y2="23" />
+          </svg>
+          <span>Live Meeting & Notulen</span>
           <span id="badge-meetings-count" class="tab-badge">0</span>
         </button>
         <button
@@ -102,7 +272,21 @@
           aria-selected="false"
           aria-controls="panel-review"
         >
-          <span>🚀</span> Performance Review
+          <svg
+            class="tab-icon"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M3 3v18h18" />
+            <path d="m19 9-5 5-4-4-3 3" />
+          </svg>
+          <span>Executive Review</span>
         </button>
       </nav>
 

@@ -223,7 +223,7 @@ window.BragBook = window.BragBook || {};
                   class="metric-pill"
                   style="justify-content: flex-start; padding: 10px 14px"
                 >
-                  <span id="review-engine-dot">🟢</span>
+                  <span id="review-engine-dot">●</span>
                   <span id="review-engine-label">Local Ollama / LM Studio</span>
                 </div>
               </div>
@@ -234,17 +234,17 @@ window.BragBook = window.BragBook || {};
                 class="btn btn-primary"
                 style="margin-top: 10px"
               >
-                ✨ Generate STAR Bullets
+                ${BragBook.Icons.standup} <span>Synthesize Executive Bullets</span>
               </button>
               <button type="button" id="btn-generate-offline-report" class="btn btn-secondary">
-                📄 Generate Markdown Report (Offline)
+                ${BragBook.Icons.journal} <span>Generate Markdown Report (Offline)</span>
               </button>
             </div>
 
             <!-- Output Column -->
             <div class="review-output-card card-glass">
               <div style="display: flex; align-items: center; justify-content: space-between">
-                <h3 style="font-size: 1rem; font-weight: 700">Generated Review Summary</h3>
+                <h3 style="font-size: 1rem; font-weight: 700">Executive Report Preview</h3>
                 <div style="display: flex; gap: 8px">
                   <button
                     type="button"
@@ -252,7 +252,7 @@ window.BragBook = window.BragBook || {};
                     class="btn btn-secondary btn-sm"
                     title="Copy to clipboard"
                   >
-                    📋 Copy
+                    ${BragBook.Icons.journal} Copy
                   </button>
                   <button
                     type="button"
@@ -260,13 +260,13 @@ window.BragBook = window.BragBook || {};
                     class="btn btn-secondary btn-sm"
                     title="Download Markdown file"
                   >
-                    💾 Export .md
+                    ${BragBook.Icons.download} Export .md
                   </button>
                 </div>
               </div>
 
               <pre id="review-output-text" class="output-pre">
-Click "Generate STAR Bullets" or "Generate Markdown Report" to compile your accomplishments for this period.</pre>
+Click "Synthesize Executive Bullets" or "Generate Markdown Report" to compile your accomplishments for this period.</pre>
             </div>
           </div>
         `;

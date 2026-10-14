@@ -1,6 +1,6 @@
 {
   "name": "bragbook",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "100% Local-First, Zero-Server Work Journal, Kanban Board, Live Meeting Notes & Performance Copilot",
   "homepage": "https://github.com/yogaardiansyah/bragbook",
   "repository": {
@@ -13,8 +13,8 @@
     "test": "node tests/blackbox.spec.js",
     "lint": "eslint js/",
     "lint:fix": "eslint js/ --fix",
-    "format": "prettier --write \"js/**/*.js\" \"tests/**/*.js\" \"*.css\" \"*.html\"",
-    "format:check": "prettier --check \"js/**/*.js\" \"tests/**/*.js\" \"*.css\" \"*.html\""
+    "format": "prettier --write \"js/**/*.js\" \"tests/**/*.js\" \"*.css\" \"css/**/*.css\" \"*.html\"",
+    "format:check": "prettier --check \"js/**/*.js\" \"tests/**/*.js\" \"*.css\" \"css/**/*.css\" \"*.html\""
   },
   "devDependencies": {
     "eslint": "^9.20.0",

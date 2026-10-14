@@ -93,20 +93,28 @@ window.BragBook = window.BragBook || {};
 
           html += `
             <div class="kanban-card" draggable="true" data-id="${entry.id}">
-              <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 8px;">
-                <strong style="font-size: 0.9rem; line-height: 1.35; color: var(--text-main);">${BragBook.Utils.escapeHtml(entry.title)}</strong>
-                <button type="button" class="btn btn-ghost btn-sm btn-edit-entry" data-id="${entry.id}" style="padding: 2px 4px; font-size: 0.75rem;" title="Edit">✏️</button>
+              <div class="kanban-card-top">
+                <strong class="kanban-card-title">${BragBook.Utils.escapeHtml(entry.title)}</strong>
+                <button type="button" class="btn btn-ghost btn-sm btn-edit-entry" data-id="${entry.id}" title="Edit Task">
+                  ${BragBook.Icons.edit}
+                </button>
               </div>
 
-              <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
-                <span class="badge" style="background: rgba(255,255,255,0.06); font-size: 0.7rem;">📁 ${BragBook.Utils.escapeHtml(entry.project || 'General')}</span>
-                <span class="badge ${impactBadgeClass}" style="font-size: 0.7rem;">${entry.impact}</span>
+              <div class="kanban-card-tags">
+                <span class="badge badge-project">
+                  ${BragBook.Icons.folder} ${BragBook.Utils.escapeHtml(entry.project || 'General')}
+                </span>
+                <span class="badge ${impactBadgeClass}">
+                  ${entry.impact}
+                </span>
                 ${tagsHtml}
               </div>
 
-              <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 4px; padding-top: 6px; border-top: 1px solid var(--border-subtle);">
-                <span style="font-size: 0.72rem; color: var(--text-dim);">${BragBook.Utils.formatDateDisplay((entry.createdAt || '').split('T')[0])}</span>
-                <select class="form-select select-kanban-shift" data-id="${entry.id}" style="padding: 2px 6px; font-size: 0.75rem; width: auto;" title="Move status">
+              <div class="kanban-card-footer">
+                <span class="kanban-card-date">
+                  ${BragBook.Utils.formatDateDisplay((entry.createdAt || '').split('T')[0])}
+                </span>
+                <select class="form-select select-kanban-shift" data-id="${entry.id}" title="Shift status">
                   <option value="backlog" ${entry.status === 'backlog' ? 'selected' : ''}>Backlog</option>
                   <option value="in_progress" ${entry.status === 'in_progress' ? 'selected' : ''}>In Progress</option>
                   <option value="done" ${entry.status === 'done' ? 'selected' : ''}>Done</option>
@@ -166,10 +174,10 @@ window.BragBook = window.BragBook || {};
         this.innerHTML = `
           <div class="kanban-board">
             <!-- Column 1: Backlog -->
-            <div class="kanban-column" data-status="backlog">
+            <div class="kanban-column column-backlog" data-status="backlog">
               <div class="kanban-column-header">
                 <div class="column-title-group" style="color: var(--status-backlog)">
-                  <span>📌</span> Backlog / Planning
+                  <span class="col-dot dot-backlog"></span> Backlog / Planned
                 </div>
                 <span id="kanban-count-backlog" class="kanban-counter">0</span>
               </div>
@@ -177,10 +185,10 @@ window.BragBook = window.BragBook || {};
             </div>
 
             <!-- Column 2: In Progress -->
-            <div class="kanban-column" data-status="in_progress">
+            <div class="kanban-column column-in_progress" data-status="in_progress">
               <div class="kanban-column-header">
                 <div class="column-title-group" style="color: var(--status-in-progress)">
-                  <span>⚡</span> In Progress / Doing
+                  <span class="col-dot dot-in-progress"></span> In Progress / Active
                 </div>
                 <span id="kanban-count-in_progress" class="kanban-counter">0</span>
               </div>
@@ -188,10 +196,10 @@ window.BragBook = window.BragBook || {};
             </div>
 
             <!-- Column 3: Done -->
-            <div class="kanban-column" data-status="done">
+            <div class="kanban-column column-done" data-status="done">
               <div class="kanban-column-header">
                 <div class="column-title-group" style="color: var(--status-done)">
-                  <span>✅</span> Done / Wins
+                  <span class="col-dot dot-done"></span> Completed Wins
                 </div>
                 <span id="kanban-count-done" class="kanban-counter">0</span>
               </div>
@@ -199,10 +207,10 @@ window.BragBook = window.BragBook || {};
             </div>
 
             <!-- Column 4: Blocked -->
-            <div class="kanban-column" data-status="blocked">
+            <div class="kanban-column column-blocked" data-status="blocked">
               <div class="kanban-column-header">
                 <div class="column-title-group" style="color: var(--status-blocked)">
-                  <span>🚧</span> Blocked / Issues
+                  <span class="col-dot dot-blocked"></span> Blocked / Risk
                 </div>
                 <span id="kanban-count-blocked" class="kanban-counter">0</span>
               </div>

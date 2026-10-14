@@ -1,0 +1,282 @@
+/* ==========================================================================
+   BragBook — Atomic Journal Styles (css/journal.css)
+   Target: Quick Logger, Project Tags, Search Toolbar, Chronological Timeline
+   ========================================================================== */
+
+/* --- SECTION 1: JOURNAL & QUICK LOGGER --- */
+.journal-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.journal-capture-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.quick-capture-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.main-entry-row {
+  display: flex;
+  gap: 10px;
+  align-items: stretch;
+}
+
+.input-main-wrap {
+  flex: 1;
+  min-width: 260px;
+}
+
+.main-title-input {
+  font-size: 0.92rem;
+  font-weight: 500;
+  padding: 10px 14px;
+}
+
+.btn-submit-log {
+  padding: 0 18px;
+}
+
+.metadata-entry-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.field-col {
+  min-width: 140px;
+}
+
+.field-col.flex-2 {
+  flex: 2;
+  min-width: 180px;
+}
+
+.field-col.flex-1 {
+  flex: 1;
+}
+
+/* Quick Tags Bar */
+.quick-tags-container {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding-top: 4px;
+}
+
+.quick-tag-label {
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-right: 4px;
+}
+
+.tag-chip {
+  padding: 3px 8px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  font-family: var(--font-mono);
+  border-radius: var(--radius-xs);
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  user-select: none;
+}
+
+.tag-chip:hover {
+  background: rgba(37, 99, 235, 0.12);
+  border-color: rgba(37, 99, 235, 0.4);
+  color: #93c5fd;
+}
+
+.tag-chip.active {
+  background: rgba(37, 99, 235, 0.25);
+  border-color: var(--primary-500);
+  color: #ffffff;
+}
+
+.tag-chip-readonly {
+  cursor: default;
+  pointer-events: none;
+}
+
+/* Journal Filter Toolbar */
+.journal-filter-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 10px 14px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+}
+
+.filter-search-box {
+  position: relative;
+  flex: 1;
+  min-width: 260px;
+  display: flex;
+  align-items: center;
+}
+
+.filter-search-icon {
+  position: absolute;
+  left: 10px;
+  color: var(--text-dim);
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+}
+
+.filter-search-input {
+  padding-left: 32px;
+}
+
+.filter-dropdowns-group {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.filter-select {
+  min-width: 130px;
+  width: auto;
+  font-size: 0.82rem;
+  padding: 7px 10px;
+}
+
+/* Timeline Cards */
+.timeline-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.timeline-date-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+  margin-bottom: 2px;
+}
+
+.timeline-date-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-dim);
+}
+
+.timeline-date-line {
+  flex: 1;
+  height: 1px;
+  background: var(--border-subtle);
+}
+
+.entry-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px 16px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-left: 3px solid var(--primary-500);
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+}
+
+.entry-card:hover {
+  background: var(--bg-surface-elevated);
+  border-color: var(--border-medium);
+  transform: translateY(-1px);
+}
+
+.entry-card.status-border-done {
+  border-left-color: var(--status-done);
+}
+
+.entry-card.status-border-in_progress {
+  border-left-color: var(--status-in-progress);
+}
+
+.entry-card.status-border-backlog {
+  border-left-color: var(--status-backlog);
+}
+
+.entry-card.status-border-blocked {
+  border-left-color: var(--status-blocked);
+}
+
+.entry-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.entry-content-wrap {
+  flex: 1;
+  min-width: 0;
+}
+
+.entry-title {
+  font-size: 0.94rem;
+  font-weight: 600;
+  color: var(--text-main);
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+.entry-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+
+.entry-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  opacity: 0.6;
+  transition: opacity var(--transition-fast);
+}
+
+.entry-card:hover .entry-actions {
+  opacity: 1;
+}
+
+.entry-blocker-note {
+  font-size: 0.8rem;
+  color: #fb7185;
+  background: rgba(225, 29, 72, 0.1);
+  border: 1px solid rgba(225, 29, 72, 0.2);
+  padding: 5px 10px;
+  border-radius: var(--radius-xs);
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.blocker-label {
+  font-weight: 700;
+  font-size: 0.7rem;
+}

@@ -1,0 +1,159 @@
+/* ==========================================================================
+   BragBook — Atomic Kanban Styles (css/kanban.css)
+   Target: Enterprise Kanban Delivery Board, Dropzones, Drag & Drop Cards
+   ========================================================================== */
+
+/* --- SECTION 2: KANBAN DELIVERY BOARD --- */
+.kanban-board {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(260px, 1fr));
+  gap: 14px;
+  align-items: start;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
+.kanban-column {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  min-height: 480px;
+  max-height: calc(100vh - 200px);
+}
+
+.kanban-column-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.column-title-group {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.col-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+
+.dot-backlog {
+  background: var(--status-backlog);
+}
+
+.dot-in-progress {
+  background: var(--status-in-progress);
+}
+
+.dot-done {
+  background: var(--status-done);
+}
+
+.dot-blocked {
+  background: var(--status-blocked);
+}
+
+.kanban-counter {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: var(--radius-xs);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-dim);
+}
+
+.kanban-dropzone {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px;
+  flex: 1;
+  overflow-y: auto;
+  min-height: 220px;
+}
+
+.kanban-dropzone.drag-over {
+  background: rgba(37, 99, 235, 0.08);
+  border: 1px dashed var(--primary-500);
+  border-radius: var(--radius-sm);
+}
+
+.kanban-card {
+  padding: 12px;
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  cursor: grab;
+  transition: all var(--transition-fast);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.kanban-card:hover {
+  border-color: var(--border-medium);
+  box-shadow: var(--shadow-sm);
+  transform: translateY(-2px);
+}
+
+.kanban-card:active {
+  cursor: grabbing;
+}
+
+.kanban-card.is-dragging {
+  opacity: 0.35;
+  transform: scale(0.97);
+}
+
+.kanban-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.kanban-card-title {
+  font-size: 0.88rem;
+  line-height: 1.35;
+  color: var(--text-main);
+  word-break: break-word;
+}
+
+.kanban-card-tags {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.kanban-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 2px;
+  padding-top: 6px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.kanban-card-date {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-dim);
+}
+
+.select-kanban-shift {
+  padding: 2px 6px;
+  font-size: 0.72rem;
+  width: auto;
+  border-radius: var(--radius-xs);
+}

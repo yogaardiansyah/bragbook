@@ -200,17 +200,16 @@ window.BragBook = window.BragBook || {};
       Object.keys(grouped).forEach(dateKey => {
         const dateDisplay = BragBook.Utils.formatDateDisplay(dateKey);
         html += `
-          <div style="margin-top: 8px; margin-bottom: 4px; display: flex; align-items: center; gap: 8px;">
-            <span style="font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-dim);">📅 ${dateDisplay}</span>
-            <div style="flex: 1; height: 1px; background: var(--border-subtle);"></div>
+          <div class="timeline-date-header">
+            <span class="timeline-date-chip">${BragBook.Icons.clock} <span>${dateDisplay}</span></span>
+            <div class="timeline-date-line"></div>
           </div>
         `;
 
         grouped[dateKey].forEach(entry => {
           const tagsHtml = (entry.tags || [])
             .map(
-              t =>
-                `<span class="tag-chip" style="cursor: default;">${BragBook.Utils.escapeHtml(t)}</span>`
+              t => `<span class="tag-chip tag-chip-readonly">${BragBook.Utils.escapeHtml(t)}</span>`
             )
             .join('');
           const impactBadgeClass = `badge-impact-${entry.impact || 'medium'}`;
@@ -218,23 +217,27 @@ window.BragBook = window.BragBook || {};
           const statusLabel = (entry.status || 'done').replace('_', ' ');
 
           html += `
-            <article class="entry-card" data-id="${entry.id}">
+            <article class="entry-card status-border-${entry.status || 'done'}" data-id="${entry.id}">
               <div class="entry-header">
-                <div style="flex: 1;">
+                <div class="entry-content-wrap">
                   <h4 class="entry-title">${BragBook.Utils.escapeHtml(entry.title)}</h4>
-                  <div class="entry-meta" style="margin-top: 6px;">
-                    <span class="badge" style="background: rgba(255,255,255,0.06); color: var(--text-muted);">📁 ${BragBook.Utils.escapeHtml(entry.project || 'General')}</span>
+                  <div class="entry-meta">
+                    <span class="badge badge-project">${BragBook.Icons.folder} ${BragBook.Utils.escapeHtml(entry.project || 'General')}</span>
                     <span class="badge ${impactBadgeClass}">Impact: ${entry.impact}</span>
                     <span class="badge ${statusBadgeClass}">Status: ${statusLabel}</span>
                     ${tagsHtml}
                   </div>
                 </div>
                 <div class="entry-actions">
-                  <button type="button" class="btn btn-ghost btn-sm btn-edit-entry" data-id="${entry.id}" title="Edit entry">✏️</button>
-                  <button type="button" class="btn btn-ghost btn-sm btn-delete-entry" data-id="${entry.id}" style="color: #f43f5e;" title="Delete entry">🗑️</button>
+                  <button type="button" class="btn btn-ghost btn-sm btn-edit-entry" data-id="${entry.id}" title="Edit entry">
+                    ${BragBook.Icons.edit}
+                  </button>
+                  <button type="button" class="btn btn-ghost btn-sm btn-delete-entry" data-id="${entry.id}" title="Delete entry">
+                    ${BragBook.Icons.trash}
+                  </button>
                 </div>
               </div>
-              ${entry.blockerNotes ? `<div style="font-size: 0.82rem; color: #fb7185; background: rgba(244,63,94,0.1); padding: 4px 8px; border-radius: var(--radius-sm);">🚧 Blocker: ${BragBook.Utils.escapeHtml(entry.blockerNotes)}</div>` : ''}
+              ${entry.blockerNotes ? `<div class="entry-blocker-note"><span class="blocker-label">BLOCKER:</span> ${BragBook.Utils.escapeHtml(entry.blockerNotes)}</div>` : ''}
             </article>
           `;
         });
@@ -338,34 +341,40 @@ window.BragBook = window.BragBook || {};
         this.innerHTML = `
           <div class="journal-layout">
             <!-- Quick Capture Form Card -->
-            <div class="card-glass">
+            <div class="card-glass journal-capture-card">
+              <div class="card-section-header">
+                <span class="section-kicker">EXECUTIVE RAPID LOGGING</span>
+                <h3 class="section-heading">Log Work Accomplishment or Deliverable</h3>
+              </div>
               <form id="form-quick-entry" class="quick-capture-form">
-                <div class="input-row">
+                <div class="input-row main-entry-row">
                   <div class="input-main-wrap">
                     <input
                       type="text"
                       id="input-entry-title"
-                      class="form-input"
-                      placeholder="What did you accomplish or work on? (e.g., Fixed memory leak in auth service)"
+                      class="form-input main-title-input"
+                      placeholder="What did you accomplish or work on? (e.g. Optimized PostgreSQL index for latency)"
                       required
                       autocomplete="off"
                     />
                   </div>
-                  <button type="submit" class="btn btn-primary"><span>+</span> Add Log</button>
+                  <button type="submit" class="btn btn-primary btn-submit-log">
+                    ${BragBook.Icons.plus} <span>Log Deliverable</span>
+                  </button>
                 </div>
 
-                <div class="input-row">
-                  <div style="flex: 1; min-width: 160px">
+                <div class="input-row metadata-entry-row">
+                  <div class="field-col flex-2">
                     <input
                       type="text"
                       id="input-entry-project"
                       class="form-input"
-                      placeholder="Project / Client (e.g. Core App)"
+                      placeholder="Project / Stream (e.g. Core App)"
                       autocomplete="off"
                     />
                   </div>
 
-                  <div style="min-width: 140px">
+                  <div class="field-col flex-1">
                     <select id="select-entry-impact" class="form-select" title="Impact Level">
                       <option value="medium">Impact: Medium</option>
                       <option value="high">Impact: High 🔥</option>
@@ -373,7 +382,7 @@ window.BragBook = window.BragBook || {};
                     </select>
                   </div>
 
-                  <div style="min-width: 150px">
+                  <div class="field-col flex-1">
                     <select id="select-entry-status" class="form-select" title="Task Status">
                       <option value="done">Status: Done ✅</option>
                       <option value="in_progress">Status: In Progress ⚡</option>
@@ -382,7 +391,7 @@ window.BragBook = window.BragBook || {};
                     </select>
                   </div>
 
-                  <div style="min-width: 140px">
+                  <div class="field-col flex-1">
                     <input
                       type="date"
                       id="input-entry-date"
@@ -394,7 +403,7 @@ window.BragBook = window.BragBook || {};
 
                 <!-- Quick Tag Selector -->
                 <div class="quick-tags-container">
-                  <span class="quick-tag-label">Quick Tags:</span>
+                  <span class="quick-tag-label">QUICK TAGS:</span>
                   <button type="button" class="tag-chip" data-tag="#feat">+ #feat</button>
                   <button type="button" class="tag-chip" data-tag="#fix">+ #fix</button>
                   <button type="button" class="tag-chip" data-tag="#review">+ #review</button>
@@ -410,25 +419,26 @@ window.BragBook = window.BragBook || {};
             <!-- Filter & Search Toolbar -->
             <div class="journal-filter-bar">
               <div class="filter-search-box">
+                <span class="filter-search-icon">${BragBook.Icons.search}</span>
                 <input
                   type="search"
                   id="input-search-query"
-                  class="form-input"
-                  placeholder="🔍 Search accomplishments, commit hashes, or tags..."
+                  class="form-input filter-search-input"
+                  placeholder="Search accomplishments, commit hashes, or tags..."
                   autocomplete="off"
                 />
               </div>
-              <div style="display: flex; gap: 8px; flex-wrap: wrap">
-                <select id="filter-project" class="form-select" style="min-width: 130px">
+              <div class="filter-dropdowns-group">
+                <select id="filter-project" class="form-select filter-select">
                   <option value="all">All Projects</option>
                 </select>
-                <select id="filter-impact" class="form-select" style="min-width: 130px">
+                <select id="filter-impact" class="form-select filter-select">
                   <option value="all">All Impacts</option>
                   <option value="high">High Only 🔥</option>
                   <option value="medium">Medium Only</option>
                   <option value="low">Low Only</option>
                 </select>
-                <select id="filter-status" class="form-select" style="min-width: 130px">
+                <select id="filter-status" class="form-select filter-select">
                   <option value="all">All Statuses</option>
                   <option value="done">Done ✅</option>
                   <option value="in_progress">In Progress ⚡</option>

@@ -100,7 +100,9 @@ BragBook will now render seamlessly in your browser's persistent side panel whil
 ## 4. Architectural Rules for AI Agents
 
 When modifying or expanding the codebase:
-1. **Never introduce bundlers (Webpack, Vite, Rollup) unless requested:** The application must remain operable simply by viewing `index.html`.
-2. **Never import external scripts via unpinned CDNs:** External dependencies create points of failure and break offline guarantees.
-3. **Always write clean, semantic HTML and standard CSS Variables:** Use the design system tokens defined in `style.css`.
-4. **Maintain `localStorage` safety:** Wrap storage writes with `try/catch` to handle browser quota exceptions gracefully.
+1. **Never introduce bundlers (Webpack, Vite, Rollup) unless explicitly requested:** The application must remain operable simply by opening `index.html` directly from the local disk or static server.
+2. **Never import external runtime scripts via CDNs:** External CDN dependencies introduce single points of failure and violate strict zero-server, offline commitments.
+3. **Atomic CSS Organization:** Place component styles in their respective atomic files within `css/` (`tokens.css`, `base.css`, `header.css`, `nav.css`, `journal.css`, `kanban.css`, `meetings.css`, `review.css`, `modals.css`, `responsive.css`). Always read color, spacing, and typography properties from `tokens.css`.
+4. **Vector Icon System:** Use `BragBook.Icons` in `js/utils.js` for UI icons. Never use generic or toy AI emojis in corporate buttons, headers, or status tags.
+5. **Maintain `localStorage` safety:** Wrap storage writes with `try/catch` to handle browser quota exceptions gracefully.
+6. **Zero-Server Testing:** Always run `npm test` (`tests/blackbox.spec.js`) before pushing changes to guarantee 100% test pass rate across all 42 verification scenarios.

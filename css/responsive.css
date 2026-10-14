@@ -1,0 +1,50 @@
+/* ==========================================================================
+   BragBook — Atomic Responsive Adaptations (css/responsive.css)
+   Target: Breakpoints for Tablet (1024px) & Mobile Viewports (640px)
+   ========================================================================== */
+
+/* --- RESPONSIVE & SIDE-PANEL ADAPTATIONS --- */
+@media (max-width: 1024px) {
+  .kanban-board {
+    grid-template-columns: repeat(2, minmax(260px, 1fr));
+  }
+
+  .meetings-layout,
+  .review-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .app-layout {
+    padding: 12px 10px;
+  }
+
+  .app-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .header-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .kanban-board {
+    grid-template-columns: 1fr;
+  }
+
+  .input-row {
+    flex-direction: column;
+  }
+
+  .live-panel-top {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .metadata-entry-row {
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,544 @@
+/* ==========================================================================
+   BragBook — Atomic Meetings Styles (css/meetings.css)
+   Target: Live Meeting Session, Audio Recorder, Waveform Visualizer,
+           Auto-Timestamped Notulen Stream, Action Items Tracker
+   ========================================================================== */
+
+/* --- SECTION 3: LIVE MEETING COPILOT & REAL-TIME NOTULEN --- */
+.meetings-layout {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 16px;
+  min-height: 560px;
+}
+
+.meetings-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 14px;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.sidebar-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-dim);
+}
+
+.meetings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  overflow-y: auto;
+  max-height: 520px;
+}
+
+.meeting-item {
+  padding: 10px 12px;
+  background: var(--bg-surface-elevated);
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.meeting-item:hover {
+  background: var(--bg-surface-hover);
+  border-color: var(--border-medium);
+}
+
+.meeting-item.active {
+  background: rgba(37, 99, 235, 0.12);
+  border-color: rgba(37, 99, 235, 0.4);
+}
+
+.meeting-item-title {
+  display: block;
+  font-size: 0.88rem;
+  color: var(--text-main);
+  line-height: 1.3;
+}
+
+.meeting-item-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  margin-top: 4px;
+  font-family: var(--font-mono);
+}
+
+/* Active Meeting Workspace */
+.meeting-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 18px;
+}
+
+.meeting-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-subtle);
+  flex-wrap: wrap;
+}
+
+.meeting-title-group {
+  display: flex;
+  gap: 8px;
+  flex: 1;
+  min-width: 280px;
+}
+
+.meeting-title-field {
+  font-weight: 700;
+  font-size: 1.05rem;
+  flex: 1;
+}
+
+.meeting-date-field {
+  max-width: 150px;
+}
+
+.meeting-actions-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-start-session {
+  background: #059669;
+  border-color: #10b981;
+}
+
+.btn-start-session:hover {
+  background: #047857;
+}
+
+.timestamp-btn {
+  background: rgba(37, 99, 235, 0.12);
+  color: #93c5fd;
+  border-color: rgba(37, 99, 235, 0.3);
+}
+
+.timestamp-btn:hover {
+  background: rgba(37, 99, 235, 0.25);
+  color: #ffffff;
+}
+
+.meeting-meta-row {
+  display: flex;
+  gap: 10px;
+}
+
+.input-field-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.input-field-wrap .field-icon {
+  position: absolute;
+  left: 10px;
+  color: var(--text-dim);
+  pointer-events: none;
+}
+
+.input-field-wrap .form-input {
+  padding-left: 30px;
+}
+
+.attendees-wrap {
+  flex: 2;
+}
+
+.attendees-wrap .form-input {
+  padding-left: 12px;
+}
+
+/* Live Session Controller Card */
+.live-meeting-panel {
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: all var(--transition-normal);
+}
+
+.live-meeting-panel.active {
+  border-color: rgba(37, 99, 235, 0.5);
+  background: linear-gradient(180deg, rgba(37, 99, 235, 0.08) 0%, rgba(14, 21, 38, 0.95) 100%);
+  box-shadow: 0 0 16px rgba(37, 99, 235, 0.15);
+}
+
+.live-panel-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.live-indicator-group {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.live-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: var(--radius-xs);
+  background: rgba(239, 68, 68, 0.15);
+  color: #fca5a5;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  letter-spacing: 0.05em;
+}
+
+.session-timer-wrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.timer-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  letter-spacing: 0.05em;
+}
+
+.session-timer {
+  font-family: var(--font-mono);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.03em;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+}
+
+.live-visualizer-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.waveform-canvas {
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xs);
+}
+
+.mic-status-label {
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+}
+
+.live-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.live-audio-options {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.audio-opt-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.audio-opt-label input {
+  accent-color: var(--primary-500);
+}
+
+/* Audio Playback Box */
+.meeting-audio-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background: rgba(37, 99, 235, 0.08);
+  border: 1px solid rgba(37, 99, 235, 0.25);
+  border-radius: var(--radius-sm);
+}
+
+.audio-box-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #93c5fd;
+  white-space: nowrap;
+}
+
+.audio-player {
+  flex: 1;
+  height: 32px;
+  outline: none;
+}
+
+/* Live Notulen Entry Bar */
+.live-notulen-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-sm);
+  flex-wrap: wrap;
+}
+
+.live-ts-indicator {
+  display: flex;
+  align-items: center;
+}
+
+.live-ts-chip {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: var(--radius-xs);
+  background: rgba(37, 99, 235, 0.2);
+  color: #93c5fd;
+  border: 1px solid rgba(37, 99, 235, 0.4);
+}
+
+.live-note-type {
+  width: auto;
+  min-width: 140px;
+  font-size: 0.82rem;
+  padding: 6px 10px;
+}
+
+.live-note-input {
+  flex: 1;
+  min-width: 200px;
+  font-size: 0.88rem;
+  padding: 7px 12px;
+}
+
+#btn-voice-dictate.active {
+  background: #dc2626;
+  color: #ffffff;
+  border-color: #ef4444;
+  animation: pulseAnim 1.2s infinite;
+}
+
+/* Dual Notulen Workspace */
+.notes-workspace-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  align-items: stretch;
+}
+
+@media (max-width: 900px) {
+  .notes-workspace-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.notes-stream-pane,
+.notes-textarea-pane {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.pane-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-dim);
+}
+
+.meeting-notes-area {
+  font-family: var(--font-mono);
+  font-size: 0.84rem;
+  line-height: 1.6;
+  min-height: 220px;
+  flex: 1;
+  resize: vertical;
+}
+
+/* Chronological Notulen Stream */
+.notulen-stream-wrapper {
+  background: var(--bg-surface-input);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 10px;
+  max-height: 260px;
+  min-height: 220px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.live-notulen-stream {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.stream-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 30px 10px;
+  color: var(--text-dim);
+  font-size: 0.85rem;
+}
+
+.stream-item {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 6px 10px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xs);
+  font-size: 0.86rem;
+}
+
+.stream-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.stream-ts {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--text-dim);
+}
+
+.stream-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 1px 5px;
+  border-radius: var(--radius-xs);
+  letter-spacing: 0.04em;
+}
+
+.badge-decision {
+  background: rgba(5, 150, 105, 0.15);
+  color: #34d399;
+  border: 1px solid rgba(5, 150, 105, 0.3);
+}
+
+.badge-action {
+  background: rgba(37, 99, 235, 0.15);
+  color: #60a5fa;
+  border: 1px solid rgba(37, 99, 235, 0.3);
+}
+
+.badge-risk {
+  background: rgba(225, 29, 72, 0.15);
+  color: #fb7185;
+  border: 1px solid rgba(225, 29, 72, 0.3);
+}
+
+.badge-note {
+  background: rgba(100, 116, 139, 0.15);
+  color: #94a3b8;
+  border: 1px solid rgba(100, 116, 139, 0.3);
+}
+
+.stream-content {
+  flex: 1;
+  word-break: break-word;
+  color: var(--text-main);
+}
+
+/* Action Items Checklist */
+.action-items-box {
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.action-items-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.action-items-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.action-items-container {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.action-item-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xs);
+}
+
+.add-action-item-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}

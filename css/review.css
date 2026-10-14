@@ -1,0 +1,46 @@
+/* ==========================================================================
+   BragBook — Atomic Review Styles (css/review.css)
+   Target: Performance Review Workspace, Copilot Summary Output Pre
+   ========================================================================== */
+
+/* --- SECTION 4: PERFORMANCE REVIEW & COPILOT --- */
+.review-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 16px;
+}
+
+.review-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 18px;
+}
+
+.review-output-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 18px;
+  min-height: 480px;
+}
+
+.output-pre {
+  background: var(--bg-surface-input);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: #e2e8f0;
+  white-space: pre-wrap;
+  flex: 1;
+  overflow-y: auto;
+}

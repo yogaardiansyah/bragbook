@@ -32,7 +32,7 @@ window.BragBook = window.BragBook || {};
           <!-- Native Dialog: Settings Modal -->
           <dialog id="modal-settings">
             <div class="modal-header">
-              <h3 class="modal-title">⚙️ BragBook Settings</h3>
+              <h3 class="modal-title">${BragBook.Icons.settings} <span>BragBook Settings</span></h3>
               <button
                 type="button"
                 class="btn btn-ghost btn-icon modal-close-btn"
@@ -178,7 +178,7 @@ window.BragBook = window.BragBook || {};
           <!-- Native Dialog: Standup Copilot Modal -->
           <dialog id="modal-standup">
             <div class="modal-header">
-              <h3 class="modal-title">⚡ Daily Standup Copilot</h3>
+              <h3 class="modal-title">${BragBook.Icons.standup} <span>Daily Standup Copilot</span></h3>
               <button
                 type="button"
                 class="btn btn-ghost btn-icon modal-close-btn"
@@ -199,7 +199,7 @@ window.BragBook = window.BragBook || {};
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary modal-close-btn">Close</button>
               <button type="button" id="btn-copy-standup-slack" class="btn btn-primary">
-                📋 Copy for Slack / Teams
+                ${BragBook.Icons.journal} <span>Copy for Slack / Teams</span>
               </button>
             </div>
           </dialog>
@@ -207,7 +207,7 @@ window.BragBook = window.BragBook || {};
           <!-- Native Dialog: Backup & Portability Modal -->
           <dialog id="modal-backup">
             <div class="modal-header">
-              <h3 class="modal-title">💾 Data Backup & Portability</h3>
+              <h3 class="modal-title">${BragBook.Icons.backup} <span>Data Backup & Portability</span></h3>
               <button
                 type="button"
                 class="btn btn-ghost btn-icon modal-close-btn"
@@ -225,10 +225,10 @@ window.BragBook = window.BragBook || {};
 
               <div style="display: flex; gap: 12px; flex-wrap: wrap">
                 <button type="button" id="btn-export-json" class="btn btn-primary" style="flex: 1">
-                  📥 Export Backup (JSON)
+                  ${BragBook.Icons.download} <span>Export Backup (JSON)</span>
                 </button>
                 <label class="btn btn-secondary" style="flex: 1; cursor: pointer">
-                  📤 Import Backup
+                  ${BragBook.Icons.backup} <span>Import Backup</span>
                   <input type="file" id="input-import-file" accept=".json" style="display: none" />
                 </label>
               </div>
@@ -242,7 +242,7 @@ window.BragBook = window.BragBook || {};
                   class="btn btn-ghost"
                   style="color: #f43f5e; width: 100%"
                 >
-                  ⚠️ Clear All Data (Reset)
+                  ${BragBook.Icons.trash} <span>Clear All Data (Reset)</span>
                 </button>
               </div>
             </div>
@@ -255,7 +255,7 @@ window.BragBook = window.BragBook || {};
           <!-- Native Dialog: Edit Entry Modal -->
           <dialog id="modal-edit-entry">
             <div class="modal-header">
-              <h3 class="modal-title">✏️ Edit Log Entry</h3>
+              <h3 class="modal-title">${BragBook.Icons.edit} <span>Edit Log Entry</span></h3>
               <button
                 type="button"
                 class="btn btn-ghost btn-icon modal-close-btn"

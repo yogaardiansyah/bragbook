@@ -64,11 +64,20 @@
 * **FR-2.2:** Drag-and-drop or single-click column transitions with live status updates.
 * **FR-2.3:** Filtering by project and tag directly on the Kanban view.
 
-### FR-3: Live Meeting Notes & Notulen with Timestamping
+### FR-3: Live Meeting Copilot & Voice Notulen with Timestamping
 * **FR-3.1:** Meeting document management with title, participants, project, and date.
-* **FR-3.2:** **Live Timestamp Shortcut:** A dedicated button and keyboard shortcut (`Ctrl/Cmd + T` or `Alt + T`) that automatically inserts the current time token (e.g., `[14:32]`) at the cursor position.
-* **FR-3.3:** **Action Items Tracker:** Interactive checklist (`[ ] Item description`) for post-meeting tasks.
-* **FR-3.4:** **One-Click Task Conversion:** Ability to convert meeting action items directly into Kanban cards or journal entries with a single click.
+* **FR-3.2:** **Live Meeting Session Controller:**
+  * One-click "Start Meeting" session lifecycle with digital elapsed timer display (`00:00:00`).
+  * Real-time microphone audio recording via native browser `MediaRecorder` API.
+  * Real-time audio waveform visualizer rendered on dynamic HTML5 canvas via Web Audio `AudioContext` and `AnalyserNode`.
+  * Optional voice dictation hook using native `SpeechRecognition` API.
+  * Audio session playback widget with native `<audio controls>` for immediate post-meeting review.
+* **FR-3.3:** **Auto-Timestamped Quick Notulen Bar:**
+  * Dedicated live entry input that automatically captures the current elapsed session time (e.g. `[00:04:12]`).
+  * Categorization badge tagging: `Note`, `Decision`, `Action`, and `Risk`.
+  * Dual-pane live sync: Chronological notulen stream feed alongside synchronized full Markdown workspace.
+* **FR-3.4:** **Manual Timestamp Injection:** Keyboard shortcut (`Ctrl/Cmd + T` or `Alt + T`) and button to insert clock timestamp `[HH:MM]` directly into editor.
+* **FR-3.5:** **Interactive Action Items Tracker:** Checklist (`[ ] Item description`) with one-click synchronization to the Kanban delivery board (`bragbook_entries`).
 
 ### FR-4: Standup Copilot
 * **FR-4.1:** Automated standup draft generator compiling:
@@ -106,10 +115,11 @@
 
 ## 5. Non-Functional Requirements (NFR)
 
-* **NFR-1 (Aesthetic & Polish):** Modern, dark-mode-first aesthetic with sleek glassmorphic surfaces, curated high-contrast typography (Inter/system-ui), subtle micro-animations, and distinct status color indicators.
-* **NFR-2 (Performance):** Zero initial load lag (< 100ms), zero external CDN dependencies required for baseline operation, instant local search indexing.
-* **NFR-3 (Confidentiality & Offline Capability):** 100% of core features (Journal, Kanban, Meeting Notes, Standup synthesis, Backup) must operate without an active internet connection.
-* **NFR-4 (Compatibility):** Runs out of the box on Chrome, Edge, Safari, Firefox, Brave, and Chromium derivatives.
+* **NFR-1 (Aesthetic & Polish):** Executive Corporate ERP aesthetic with high-density Slate & Cobalt palette (`#080c16`, `#0e1526`, `#2563eb`), 22+ inline SVG vector icons (no generic emojis), curated typography (`Inter` for UI layout, `JetBrains Mono` for tabular metrics and timestamps), and subtle micro-interactions.
+* **NFR-2 (Maintainability & Atomic CSS):** Stylesheets deconstructed into 10 modular, atomic component files (`css/tokens.css`, `css/base.css`, `css/header.css`, `css/nav.css`, `css/journal.css`, `css/kanban.css`, `css/meetings.css`, `css/review.css`, `css/modals.css`, `css/responsive.css`) enabling zero-build instant maintainability and non-blocking parallel loading.
+* **NFR-3 (Performance):** Zero initial load lag (< 100ms), zero external runtime dependencies required for baseline operation, instant local search indexing.
+* **NFR-4 (Confidentiality & Offline Capability):** 100% of core features (Journal, Kanban, Live Meeting Notes & Recording, Standup synthesis, Backup) operate completely offline with no background telemetry.
+* **NFR-5 (Compatibility):** Runs out of the box on Chrome, Edge, Safari, Firefox, Brave, and Chromium derivatives across both `http://` and `file:///` protocols without CORS origin errors.
 
 ---
 
